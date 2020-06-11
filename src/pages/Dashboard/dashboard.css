@@ -1,0 +1,47 @@
+#dashboardBg {
+  background: white;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+#menuContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: #2e4170;
+  align-items: center;
+  padding-top: calc(40px + 1vmin);
+}
+
+#adminName {
+  font-size: calc(24px + 1vmin);
+  color: white;
+  font-weight: 500;
+  font-family: "Source Sans Pro";
+  margin-top: calc(8px + 1vmin);
+  margin-bottom: calc(20px + 1vmin);
+}
+
+.titleTopic {
+  font-size: calc(24px + 1vmin);
+  color: black;
+  font-weight: 500;
+  font-family: "Source Sans Pro";
+}
+
+.chooseContainer {
+  display: flex;
+  flex: 5;
+  flex-direction: column;
+  padding: calc(28px + 1vmin);
+}
+
+#searchContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: calc(20px + 1vmin);
+  margin-bottom: calc(20px + 1vmin);
+}

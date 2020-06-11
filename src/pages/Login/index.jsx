@@ -3,6 +3,7 @@ import "./login.css";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { Input } from "antd";
+import axios from "axios";
 import firebase from "firebase";
 
 function Login() {
@@ -31,6 +32,37 @@ function Login() {
         else if (error.code === "auth/wrong-password")
           this.setState({ isWrongPassword: true });
       });
+    // firebase
+    //   .database()
+    //   .ref("trips")
+    //   .once("value", (snapshot) => {
+    //     if (!snapshot.exists()) {
+    //       console.log("Trips donot exist");
+    //       return;
+    //     }
+    //     var trips = snapshot.val();
+    //     var tripToGet = trips.filter(
+    //       (item) => item.from === "NHATRANG" && item.to === "SAIGON"
+    //     );
+    //     console.log({ totalItems: tripToGet.length, data: tripToGet });
+    //   })
+    //   .catch((error) => console.log(error));
+
+    // axios
+    //   .request({
+    //     url: "http://localhost:5001/dimo-3e6f7/us-central1/dimoApi/api/trips",
+    //     timeout: 10000,
+    //     headers: { "Access-Control-Allow-Origin": true },
+    //     method: "POST",
+    //     data: {
+    //       from: "NHATRANG",
+    //       to: "SAIGON",
+    //       date: "21/06/2020",
+    //       page: 1,
+    //     },
+    //   })
+    //   .then((res) => console.log(res))
+    //   .catch((error) => console.log(error));
   };
 
   return (
