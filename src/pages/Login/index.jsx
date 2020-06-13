@@ -5,6 +5,7 @@ import * as yup from "yup";
 import { Input } from "antd";
 import axios from "axios";
 import firebase from "firebase";
+import moment from "moment";
 
 function Login() {
   const validationSchema = yup.object().shape({
@@ -22,16 +23,16 @@ function Login() {
   });
 
   const handleLogin = (values) => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(values.email, values.password)
-      .then((res) => console.log(res))
-      .catch((error) => {
-        if (error.code === "auth/user-not-found")
-          this.setState({ isNotHaveAccount: true });
-        else if (error.code === "auth/wrong-password")
-          this.setState({ isWrongPassword: true });
-      });
+    // firebase
+    //   .auth()
+    //   .signInWithEmailAndPassword(values.email, values.password)
+    //   .then((res) => console.log(res))
+    //   .catch((error) => {
+    //     if (error.code === "auth/user-not-found")
+    //       this.setState({ isNotHaveAccount: true });
+    //     else if (error.code === "auth/wrong-password")
+    //       this.setState({ isWrongPassword: true });
+    //   });
     // firebase
     //   .database()
     //   .ref("trips")
@@ -40,14 +41,27 @@ function Login() {
     //       console.log("Trips donot exist");
     //       return;
     //     }
-    //     var trips = snapshot.val();
-    //     var tripToGet = trips.filter(
-    //       (item) => item.from === "NHATRANG" && item.to === "SAIGON"
-    //     );
-    //     console.log({ totalItems: tripToGet.length, data: tripToGet });
+    //     var tripToGet = snapshot.val();
+    //     const busOperator = {};
+    //     const map = new Map();
+    //     for (const item of tripToGet) {
+    //       if (!map.has(item.busOperatorId)) {
+    //         map.set(item.busOperatorId, true); // set any value to Map
+    //         busOperator[item.busOperatorId] = {
+    //           busOperatorId: item.busOperatorId,
+    //           email: `${item.busOperatorId.toLowerCase()}@gmail.com`,
+    //           name: item.busOperator,
+    //           phoneNumber: "0912345678",
+    //           contact: item.busOperator,
+    //           address: "221 PHẠM NGŨ LÃO, QUẬN 1, TP.HCM",
+    //           lat: 10.768,
+    //           long: 106.69,
+    //         };
+    //       }
+    //     }
+    //     console.log(busOperator);
     //   })
     //   .catch((error) => console.log(error));
-
     // axios
     //   .request({
     //     url: "http://localhost:5001/dimo-3e6f7/us-central1/dimoApi/api/trips",

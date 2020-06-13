@@ -3,11 +3,15 @@ import {
   DesktopOutlined,
   PieChartOutlined,
   PlusCircleOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
-import { Menu, Avatar, Input, Button, Table } from "antd";
+import { Menu, Avatar, Input, Button, Table, Dropdown } from "antd";
 import React, { useState } from "react";
 import "./dashboard.css";
 import "antd/dist/antd.css";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { GetBusOperator } from "./redux/actions";
 
 const { Search } = Input;
 
@@ -77,9 +81,16 @@ const data = [
   },
 ];
 
+const busTypeData = ["XE20", "XE21", "XE22"];
+
 function Dashboard() {
-  const [collapsed, setCollasped] = useState(false);
   const [menuSelect, setMenuSelect] = useState("1");
+  const dashboard = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(GetBusOperator.get());
+  // });
 
   const onChangeBusOperator = (pagination, filters, sorter, extra) => {
     console.log("params", pagination, filters, sorter, extra);
@@ -94,7 +105,11 @@ function Dashboard() {
           onSearch={(value) => console.log(value)}
           style={{ width: "50%" }}
         />
-        <Button type="primary" icon={<PlusCircleOutlined />}>
+        <Button
+          type="primary"
+          icon={<PlusCircleOutlined />}
+          onClick={() => dispatch(GetBusOperator.get())}
+        >
           Thêm nhà xe mới
         </Button>
       </div>
@@ -106,18 +121,43 @@ function Dashboard() {
     </div>
   );
 
+  const busTypeMenu = (
+    <Menu>
+      {busTypeData && busTypeData.map((item) => <Menu.Item>{item}</Menu.Item>)}
+    </Menu>
+  );
+
   const renderBusTripList = () => (
     <div className="chooseContainer">
       <span className="titleTopic">Danh sách chuyến xe</span>
-      <div id="searchContainer">
-        <Search
-          placeholder="Nhập tên nhà xe,..."
-          onSearch={(value) => console.log(value)}
-          style={{ width: "50%" }}
-        />
-        <Button type="primary" icon={<PlusCircleOutlined />}>
-          Thêm nhà xe mới
-        </Button>
+      <div id="filterContainer">
+        <Dropdown
+          overlay={busTypeMenu}
+          className="dropdownMargin"
+          placement="bottomCenter"
+        >
+          <Button>
+            Loại xe <DownOutlined />
+          </Button>
+        </Dropdown>
+        <Dropdown
+          overlay={busTypeMenu}
+          className="dropdownMargin"
+          placement="bottomCenter"
+        >
+          <Button>
+            Từ <DownOutlined />
+          </Button>
+        </Dropdown>
+        <Dropdown
+          overlay={busTypeMenu}
+          className="dropdownMargin"
+          placement="bottomCenter"
+        >
+          <Button>
+            Đến <DownOutlined />
+          </Button>
+        </Dropdown>
       </div>
       <Table
         columns={columns}
@@ -130,15 +170,43 @@ function Dashboard() {
   const renderBookingList = () => (
     <div className="chooseContainer">
       <span className="titleTopic">Danh sách đơn hàng</span>
-      <div id="searchContainer">
-        <Search
-          placeholder="Nhập tên nhà xe,..."
-          onSearch={(value) => console.log(value)}
-          style={{ width: "50%" }}
-        />
-        <Button type="primary" icon={<PlusCircleOutlined />}>
-          Thêm nhà xe mới
-        </Button>
+      <div id="filterContainer">
+        <Dropdown
+          overlay={busTypeMenu}
+          className="dropdownMargin"
+          placement="bottomCenter"
+        >
+          <Button>
+            Loại xe <DownOutlined />
+          </Button>
+        </Dropdown>
+        <Dropdown
+          overlay={busTypeMenu}
+          className="dropdownMargin"
+          placement="bottomCenter"
+        >
+          <Button>
+            Trạng thái <DownOutlined />
+          </Button>
+        </Dropdown>
+        <Dropdown
+          overlay={busTypeMenu}
+          className="dropdownMargin"
+          placement="bottomCenter"
+        >
+          <Button>
+            Từ <DownOutlined />
+          </Button>
+        </Dropdown>
+        <Dropdown
+          overlay={busTypeMenu}
+          className="dropdownMargin"
+          placement="bottomCenter"
+        >
+          <Button>
+            Đến <DownOutlined />
+          </Button>
+        </Dropdown>
       </div>
       <Table
         columns={columns}
@@ -151,15 +219,16 @@ function Dashboard() {
   const renderCustomerList = () => (
     <div className="chooseContainer">
       <span className="titleTopic">Danh sách hành khách</span>
-      <div id="searchContainer">
-        <Search
-          placeholder="Nhập tên nhà xe,..."
-          onSearch={(value) => console.log(value)}
-          style={{ width: "50%" }}
-        />
-        <Button type="primary" icon={<PlusCircleOutlined />}>
-          Thêm nhà xe mới
-        </Button>
+      <div id="filterContainer">
+        <Dropdown
+          overlay={busTypeMenu}
+          className="dropdownMargin"
+          placement="bottomCenter"
+        >
+          <Button>
+            Trạng thái <DownOutlined />
+          </Button>
+        </Dropdown>
       </div>
       <Table
         columns={columns}
@@ -192,13 +261,12 @@ function Dashboard() {
     <div id="dashboardBg">
       <div id="menuContainer">
         <Avatar size={100} src="https://source.unsplash.com/random" />
-        <span id="adminName">Admin Black</span>
+        <span id="adminName">Admin Black Black</span>
         <Menu
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"
           // theme="dark"
-          inlineCollapsed={collapsed}
           onSelect={onMenuSelect}
         >
           <Menu.Item key="1" icon={<PieChartOutlined />}>

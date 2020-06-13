@@ -1,6 +1,7 @@
 #loginBg {
   background: #2e4170;
   width: 100vw;
+  flex: 1;
   max-width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -22,8 +23,8 @@
   background-color: white;
   border-radius: calc(24px + 1vmin);
   align-items: center;
-  width: 50vmin;
-  padding: 6vmin;
+  width: 55vmin;
+  padding: 4vmin;
 }
 
 #loginStyle {
@@ -34,7 +35,7 @@
 }
 
 #inputBox {
-  width: 48vmin;
+  width: 100%;
   height: calc(56px + 2vmin);
   background: #ffffff;
   box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.05);

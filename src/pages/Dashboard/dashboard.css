@@ -16,8 +16,9 @@
 }
 
 #adminName {
-  font-size: calc(24px + 1vmin);
+  font-size: calc(22px + 1vmin);
   color: white;
+  text-align: center;
   font-weight: 500;
   font-family: "Source Sans Pro";
   margin-top: calc(8px + 1vmin);
@@ -25,7 +26,7 @@
 }
 
 .titleTopic {
-  font-size: calc(24px + 1vmin);
+  font-size: calc(22px + 1vmin);
   color: black;
   font-weight: 500;
   font-family: "Source Sans Pro";
@@ -44,4 +45,24 @@
   align-items: center;
   margin-top: calc(20px + 1vmin);
   margin-bottom: calc(20px + 1vmin);
+}
+
+#filterContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: calc(20px + 1vmin);
+  margin-bottom: calc(20px + 1vmin);
+}
+
+.dropdownMargin {
+  margin-right: calc(16px + 1vmin);
+  width: calc(124px + 1vmin);
+  min-width: calc(100px + 1vmin);
+}
+
+.filterBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: space-between;
 }

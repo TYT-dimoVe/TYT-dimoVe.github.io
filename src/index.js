@@ -5,13 +5,17 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { firebaseConfig } from "./firebaseConfig";
 import firebase from "firebase";
+import { Provider } from 'react-redux'
+import { store } from 'core/store';
 
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
