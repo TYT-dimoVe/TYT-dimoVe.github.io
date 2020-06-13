@@ -7,6 +7,9 @@ import { firebaseConfig } from "./firebaseConfig";
 import firebase from "firebase";
 import { Provider } from 'react-redux'
 import { store } from 'core/store';
+import { ConfigProvider } from 'antd';
+import viVN from 'antd/es/locale/vi_VN';
+import { IconContext } from "react-icons"
 
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
@@ -14,7 +17,11 @@ firebase.analytics();
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ConfigProvider locale={viVN}>
+        <IconContext.Provider value={{ className: "react-icon-clasname", style: { verticalAlign: 'middle' } }}>
+          <App />
+        </IconContext.Provider>
+      </ConfigProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

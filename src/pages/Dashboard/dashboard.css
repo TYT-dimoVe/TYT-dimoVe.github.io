@@ -30,6 +30,7 @@
   color: black;
   font-weight: 500;
   font-family: "Source Sans Pro";
+  margin-bottom: calc(20px + 1vmin);
 }
 
 .chooseContainer {

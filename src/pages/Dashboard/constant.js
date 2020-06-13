@@ -1,0 +1,5 @@
+export const CUSTOMER_STATUS = {
+  NOT_PAID: 'NOT_PAID',
+  PAID: 'PAID',
+  NO_ACTIVITY: 'NO_ACTIVITY'
+}
