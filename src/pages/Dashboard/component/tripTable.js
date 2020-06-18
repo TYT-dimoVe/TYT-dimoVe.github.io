@@ -15,13 +15,18 @@ const loadingIcon = (
 function TripList() {
   const tripList = useSelector((state) => state.Dashboard.tripList);
   const isLoading = useSelector((state) => state.Dashboard.isLoading);
+  const accountType = useSelector((state) => state.Dashboard.accountType);
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchColumn] = useState("");
   const refInput = useRef();
 
   useEffect(() => {
-    dispatch(GetTripList.get());
+    if (accountType !== 'admin') {
+      dispatch(GetTripList.get({ busOperatorId: accountType }));
+    } else {
+      dispatch(GetTripList.get());
+    }
   }, []);
 
   const tripsColumns = [

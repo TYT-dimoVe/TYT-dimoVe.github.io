@@ -8,6 +8,7 @@ import { COLOR, formatCurrency } from "ultis/functions";
 import "../dashboard.css";
 import { GetOrderList } from "../redux/actions";
 import { getColumnSearchProps } from "./searchInput";
+import { PAYMENT_TYPE } from "../constant";
 
 const loadingIcon = (
   <LoadingOutlined style={{ fontSize: 30, color: COLOR.primary }} spin />
@@ -61,20 +62,20 @@ function OrderList() {
         refInput
       ),
     },
-    // {
-    //   title: "Nhà xe",
-    //   dataIndex: "customerName",
-    //   key: "customerName",
-    //   ...getColumnSearchProps(
-    //     "customerName",
-    //     "Nhập tên nhà xe",
-    //     searchText,
-    //     setSearchText,
-    //     searchedColumn,
-    //     setSearchColumn,
-    //     refInput
-    //   ),
-    // },
+    {
+      title: "Nhà xe",
+      dataIndex: "busOperator",
+      key: "busOperator",
+      ...getColumnSearchProps(
+        "busOperator",
+        "Nhập tên nhà xe",
+        searchText,
+        setSearchText,
+        searchedColumn,
+        setSearchColumn,
+        refInput
+      ),
+    },
     {
       title: "Tổng tiền",
       dataIndex: "totalPrice",
@@ -84,6 +85,28 @@ function OrderList() {
       render: (value, record, index) => {
         return <span>{formatCurrency(value)}</span>
       }
+    },
+    {
+      title: "Hình thức thanh toán",
+      dataIndex: "paymentCode",
+      render: (value, record, index) => {
+        switch (value) {
+          case PAYMENT_TYPE[0].value:
+            return <span>{PAYMENT_TYPE[0].text}</span>
+          case PAYMENT_TYPE[1].value:
+            return <span>{PAYMENT_TYPE[1].text}</span>
+          case PAYMENT_TYPE[2].value:
+            return <span>{PAYMENT_TYPE[2].text}</span>
+          case PAYMENT_TYPE[3].value:
+            return <span>{PAYMENT_TYPE[3].text}</span>
+          case PAYMENT_TYPE[4].value:
+            return <span>{PAYMENT_TYPE[4].text}</span>
+          default: return <span />
+        }
+      },
+      filters: PAYMENT_TYPE,
+      filteredValue: filteredInfo ? filteredInfo.name : null,
+      onFilter: (value, record) => record.paymentStatus === value,
     },
     {
       title: "Trạng thái",

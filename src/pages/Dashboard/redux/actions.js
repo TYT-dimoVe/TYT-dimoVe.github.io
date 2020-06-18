@@ -11,3 +11,5 @@ export const GetTripListFailed = defineAction('GET_TRIP_LIST_FAILED')
 export const GetOrderList = defineAction('GET_ORDER_LIST_REQUEST')
 export const GetOrderListSuccess = defineAction('GET_ORDER_LIST_SUCCESS')
 export const GetOrderListFailed = defineAction('GET_ORDER_LIST_FAILED')
+
+export const SetTypeAccount = defineAction('SET_TYPE_ACCOUNT')

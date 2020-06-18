@@ -24,6 +24,10 @@ function BusOperator() {
     dispatch(GetBusOperator.get());
   }, []);
 
+  const onAddNewBusOperator = () => {
+    console.log(new Date().getTime())
+  }
+
   const busOperatorColumns = [
     {
       ...getColumnSearchProps(
@@ -91,10 +95,10 @@ function BusOperator() {
     <div className="chooseContainer">
       <span className="titleTopic">Danh sách nhà xe</span>
       <Button
-        type="primary"
+        type='primary'
         icon={<PlusCircleOutlined />}
-        style={{ width: 200, marginBottom: 32, backgroundColor: COLOR.primary }}
-        onClick={() => { }}
+        style={{ width: 200, marginBottom: 32 }}
+        onClick={() => onAddNewBusOperator()}
       >
         Thêm nhà xe mới
       </Button>

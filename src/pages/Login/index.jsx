@@ -2,7 +2,7 @@ import React from "react";
 import "./login.css";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
-import { Input } from "antd";
+import { Input, Modal } from "antd";
 import axios from "axios";
 import firebase from "firebase";
 import moment from "moment";
@@ -23,43 +23,44 @@ function Login() {
   });
 
   const handleLogin = (values) => {
-    // firebase
-    //   .auth()
-    //   .signInWithEmailAndPassword(values.email, values.password)
-    //   .then((res) => console.log(res))
-    //   .catch((error) => {
-    //     if (error.code === "auth/user-not-found")
-    //       this.setState({ isNotHaveAccount: true });
-    //     else if (error.code === "auth/wrong-password")
-    //       this.setState({ isWrongPassword: true });
-    //   });
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(values.email, values.password)
+      .catch((error) => {
+        if (error.code === "auth/user-not-found") {
+          Modal.error({
+            title: "Không tìm thấy",
+            content: "Không tìm thấy người dùng này.",
+          });
+        } else if (error.code === "auth/wrong-password") {
+          Modal.error({
+            title: "Sai mật khẩu",
+            content: "Bạn đã nhập sai mật khẩu.",
+          });
+        }
+      });
     // firebase
     //   .database()
-    //   .ref("trips")
+    //   .ref("tickets")
     //   .once("value", (snapshot) => {
     //     if (!snapshot.exists()) {
     //       console.log("Trips donot exist");
     //       return;
     //     }
     //     var tripToGet = snapshot.val();
-    //     const busOperator = {};
+    //     const busType = {};
     //     const map = new Map();
     //     for (const item of tripToGet) {
-    //       if (!map.has(item.busOperatorId)) {
-    //         map.set(item.busOperatorId, true); // set any value to Map
-    //         busOperator[item.busOperatorId] = {
-    //           busOperatorId: item.busOperatorId,
-    //           email: `${item.busOperatorId.toLowerCase()}@gmail.com`,
-    //           name: item.busOperator,
-    //           phoneNumber: "0912345678",
-    //           contact: item.busOperator,
-    //           address: "221 PHẠM NGŨ LÃO, QUẬN 1, TP.HCM",
-    //           lat: 10.768,
-    //           long: 106.69,
+    //       if (!map.has(item.busTypeTitle)) {
+    //         map.set(item.busTypeTitle, true); // set any value to Map
+    //         busType[item.busType] = {
+    //           busTypeTitle: item.busTypeTitle,
+    //           busType: item.busType,
+    //           count: Number(item.busType.replace(/[^0-9]/gi, "")),
     //         };
     //       }
     //     }
-    //     console.log(busOperator);
+    //     console.log(busType);
     //   })
     //   .catch((error) => console.log(error));
     // axios

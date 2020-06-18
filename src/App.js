@@ -3,15 +3,19 @@ import { HashRouter as Router, Route } from "react-router-dom";
 import "./App.css";
 import Login from 'pages/Login'
 import Dashboard from 'pages/Dashboard'
+import Loading from "pages/Loading";
 function App() {
   return (
     <Router>
       <div>
         <Route exact path="/">
-          <Dashboard />
+          <Loading />
         </Route>
-        <Route exact path="/dashboard">
+        <Route path="/login">
           <Login />
+        </Route>
+        <Route path="/dashboard">
+          <Dashboard />
         </Route>
       </div>
     </Router>

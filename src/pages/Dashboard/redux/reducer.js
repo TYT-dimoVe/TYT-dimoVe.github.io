@@ -1,10 +1,11 @@
-import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed } from './actions'
+import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, SetTypeAccount } from './actions'
 
 const initialState = {
   busOperator: [],
   tripList: [],
   orderList: [],
   customerList: [],
+  accountType: null,
   isLoading: false
 }
 
@@ -28,6 +29,8 @@ export function dashboardReducer(state = initialState, action) {
       return { ...state, orderList: action.payload, isLoading: false }
     case GetOrderListFailed.type:
       return { ...state, isLoading: false }
+    case SetTypeAccount.type:
+      return { ...state, accountType: action.payload }
     default:
       return state
   }

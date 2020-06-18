@@ -29,8 +29,9 @@ const getTripListEpic$ = (action$) =>
     ofType(GetTripList.type),
     exhaustMap(action => {
       return request({
-        method: 'GET',
-        url: 'tripsList'
+        method: 'POST',
+        url: 'tripsList',
+        param: action.payload
       }).pipe(
         map((result) => {
           if (result.status === 200) {
@@ -50,8 +51,9 @@ const getOrderListEpic$ = (action$) =>
     ofType(GetOrderList.type),
     exhaustMap(action => {
       return request({
-        method: 'GET',
-        url: 'tickets'
+        method: 'POST',
+        url: 'tickets',
+        param: action.payload
       }).pipe(
         map((result) => {
           if (result.status === 200) {
