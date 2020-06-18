@@ -1,22 +1,51 @@
-import { DesktopOutlined, PieChartOutlined } from "@ant-design/icons";
-import { Avatar, Menu, Button } from "antd";
-import React, { useState } from "react";
+import {
+  DesktopOutlined,
+  FrownOutlined,
+  LoadingOutlined,
+  PieChartOutlined,
+} from "@ant-design/icons";
+import { Avatar, Button, Menu, Spin } from "antd";
+import firebase from "firebase";
+import React, { useEffect, useState } from "react";
 import { FiFileText, FiUsers } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { COLOR } from "ultis/functions";
 import BusOperator from "./component/busOperatorTable";
 import CustomerList from "./component/customerList";
+import Home from "./component/homePage";
 import OrderList from "./component/orderListTable";
 import TripList from "./component/tripTable";
 import "./dashboard.css";
-import firebase from "firebase";
-import Home from "./component/homePage";
-import { useDispatch, useSelector } from "react-redux";
+import { GetBusOperatorDetail } from "./redux/actions";
+
+const loadingIcon = (
+  <LoadingOutlined style={{ fontSize: 30, color: COLOR.primary }} spin />
+);
 
 function Dashboard() {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [menuSelect, setMenuSelect] = useState("0");
   const accountType = useSelector((state) => state.Dashboard.accountType);
+  const accountDetail = useSelector((state) => state.Dashboard.accountDetail);
+  const isLoadingDashboard = useSelector(
+    (state) => state.Dashboard.isLoadingDashboard
+  );
+
+  useEffect(() => {
+    if (accountType && accountType !== "admin") {
+      dispatch(GetBusOperatorDetail.get({ busOperatorId: accountType }));
+    }
+  }, []);
 
   const onMenuSelect = ({ item, key, keyPath, selectedKeys, domEvent }) => {
     setMenuSelect(key);
+  };
+
+  const handleSignOut = () => {
+    firebase.auth().signOut();
+    history.push("/");
   };
 
   const renderRightDashboard = () => {
@@ -36,11 +65,44 @@ function Dashboard() {
     }
   };
 
+  if (isLoadingDashboard) {
+    return (
+      <div className="chooseContainer">
+        <Spin indicator={loadingIcon} />
+      </div>
+    );
+  }
+
+  if (!accountType) {
+    return (
+      <div id="empty">
+        <div id="errorWrap">
+          <FrownOutlined style={{ fontSize: 60, color: COLOR.primary }} />
+          <p style={{ textAlign: "center", paddingBottom: 16 }}>
+            Bạn chưa đăng nhập hoặc phiên đăng nhập đã hết hạn. Nhấn đăng nhập
+            để đăng nhập lại.
+          </p>
+          <Button
+            type="primary"
+            style={{
+              borderColor: "white",
+            }}
+            onClick={() => history.push("/")}
+          >
+            Đăng nhập
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div id="dashboardBg">
       <div id="menuContainer">
         <Avatar size={100} src="https://source.unsplash.com/random" />
-        <span id="adminName">Admin</span>
+        <span id="adminName">
+          {accountDetail ? accountDetail.name : "Admin"}
+        </span>
         <Menu
           defaultSelectedKeys={["0"]}
           defaultOpenKeys={["sub1"]}
@@ -77,13 +139,15 @@ function Dashboard() {
           >
             Đơn hàng
           </Menu.Item>
-          <Menu.Item
-            style={{ color: "white" }}
-            key="4"
-            icon={<FiUsers size={16} style={{ marginRight: 8 }} />}
-          >
-            Hành khách
-          </Menu.Item>
+          {accountType === "admin" && (
+            <Menu.Item
+              style={{ color: "white" }}
+              key="4"
+              icon={<FiUsers size={16} style={{ marginRight: 8 }} />}
+            >
+              Hành khách
+            </Menu.Item>
+          )}
         </Menu>
         <Button
           type="primary"
@@ -92,7 +156,7 @@ function Dashboard() {
             marginTop: 64,
             borderColor: "white",
           }}
-          onClick={() => firebase.auth().signOut()}
+          onClick={() => handleSignOut()}
         >
           Đăng xuất
         </Button>

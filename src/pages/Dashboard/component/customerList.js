@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLOR } from "ultis/functions";
 import { CUSTOMER_STATUS } from "../constant";
 import "../dashboard.css";
-import { GetOrderList } from "../redux/actions";
+import { GetCustomerList } from "../redux/actions";
 import { getColumnSearchProps } from "./searchInput";
 
 const loadingIcon = (
@@ -14,7 +14,7 @@ const loadingIcon = (
 );
 
 function CustomerList() {
-  const orderList = useSelector((state) => state.Dashboard.orderList);
+  const customerList = useSelector((state) => state.Dashboard.customerList);
   const isLoading = useSelector((state) => state.Dashboard.isLoading);
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
@@ -23,14 +23,14 @@ function CustomerList() {
   const [filteredInfo, setFilterInfo] = useState(null)
 
   useEffect(() => {
-    dispatch(GetOrderList.get());
+    dispatch(GetCustomerList.get());
   }, []);
 
   const handleChange = (pagination, filters, sorter) => {
     setFilterInfo(filters)
   };
 
-  const orderColumns = [
+  const customerColumns = [
     {
       title: "CMND",
       dataIndex: "identityId",
@@ -62,11 +62,11 @@ function CustomerList() {
     },
     {
       title: "Email",
-      dataIndex: "email",
-      key: 'email',
+      dataIndex: "customerEmail",
+      key: 'customerEmail',
       sorter: (a, b) => a.identityId.localeCompare(b.identityId),
       ...getColumnSearchProps(
-        "email",
+        "customerEmail",
         "Nhập email",
         searchText,
         setSearchText,
@@ -122,7 +122,7 @@ function CustomerList() {
   return (
     <div className="chooseContainer">
       <span className="titleTopic">Danh sách hành khách</span>
-      <Table columns={orderColumns} dataSource={orderList} onChange={handleChange} />
+      <Table columns={customerColumns} dataSource={customerList} onChange={handleChange} />
     </div>
   );
 }

@@ -1,13 +1,13 @@
-import React from "react";
-import "./login.css";
-import { Formik, Form } from "formik";
-import * as yup from "yup";
 import { Input, Modal } from "antd";
-import axios from "axios";
 import firebase from "firebase";
-import moment from "moment";
+import { Form, Formik } from "formik";
+import React from "react";
+import * as yup from "yup";
+import "./login.css";
+import { useHistory } from "react-router-dom";
 
 function Login() {
+  const history = useHistory();
   const validationSchema = yup.object().shape({
     email: yup
       .string()
@@ -26,6 +26,7 @@ function Login() {
     firebase
       .auth()
       .signInWithEmailAndPassword(values.email, values.password)
+      .then(() => history.push("/"))
       .catch((error) => {
         if (error.code === "auth/user-not-found") {
           Modal.error({
@@ -39,45 +40,6 @@ function Login() {
           });
         }
       });
-    // firebase
-    //   .database()
-    //   .ref("tickets")
-    //   .once("value", (snapshot) => {
-    //     if (!snapshot.exists()) {
-    //       console.log("Trips donot exist");
-    //       return;
-    //     }
-    //     var tripToGet = snapshot.val();
-    //     const busType = {};
-    //     const map = new Map();
-    //     for (const item of tripToGet) {
-    //       if (!map.has(item.busTypeTitle)) {
-    //         map.set(item.busTypeTitle, true); // set any value to Map
-    //         busType[item.busType] = {
-    //           busTypeTitle: item.busTypeTitle,
-    //           busType: item.busType,
-    //           count: Number(item.busType.replace(/[^0-9]/gi, "")),
-    //         };
-    //       }
-    //     }
-    //     console.log(busType);
-    //   })
-    //   .catch((error) => console.log(error));
-    // axios
-    //   .request({
-    //     url: "http://localhost:5001/dimo-3e6f7/us-central1/dimoApi/api/trips",
-    //     timeout: 10000,
-    //     headers: { "Access-Control-Allow-Origin": true },
-    //     method: "POST",
-    //     data: {
-    //       from: "NHATRANG",
-    //       to: "SAIGON",
-    //       date: "21/06/2020",
-    //       page: 1,
-    //     },
-    //   })
-    //   .then((res) => console.log(res))
-    //   .catch((error) => console.log(error));
   };
 
   return (

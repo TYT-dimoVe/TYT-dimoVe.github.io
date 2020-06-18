@@ -13,3 +13,21 @@ export const GetOrderListSuccess = defineAction('GET_ORDER_LIST_SUCCESS')
 export const GetOrderListFailed = defineAction('GET_ORDER_LIST_FAILED')
 
 export const SetTypeAccount = defineAction('SET_TYPE_ACCOUNT')
+
+export const GetCustomerList = defineAction('GET_CUSTOMER_LIST_REQUEST')
+export const GetCustomerListSuccess = defineAction('GET_CUSTOMER_LIST_SUCCESS')
+export const GetCustomerListFailed = defineAction('GET_CUSTOMER_LIST_FAILED')
+
+export const GetBusOperatorDetail = defineAction('GET_BUS_OPERATOR_DETAIL_REQUEST')
+export const GetBusOperatorDetailSuccess = defineAction('GET_BUS_OPERATOR_DETAIL_SUCCESS')
+export const GetBusOperatorDetailFailed = defineAction('GET_BUS_OPERATOR_DETAIL_FAILED')
+
+export const GetAccountType = defineAction('GET_TYPE_ACCOUNT')
+
+export const GetOrderDetail = defineAction('GET_ORDER_DETAIL_REQUEST')
+export const GetOrderDetailSuccess = defineAction('GET_ORDER_DETAIL_SUCCESS')
+export const GetOrderDetailFailed = defineAction('GET_ORDER_DETAIL_FAILED')
+
+export const EditOrderDetail = defineAction('EDIT_ORDER_DETAIL_REQUEST')
+export const EditOrderDetailSuccess = defineAction('EDIT_ORDER_DETAIL_SUCCESS')
+export const EditOrderDetailFailed = defineAction('EDIT_ORDER_DETAIL_FAILED')

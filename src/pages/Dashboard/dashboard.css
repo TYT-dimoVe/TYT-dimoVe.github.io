@@ -6,6 +6,22 @@
   flex-direction: row;
 }
 
+#empty {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+#errorWrap {
+  width: 20vmax;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 #menuContainer {
   display: flex;
   flex: 1;
@@ -30,7 +46,7 @@
   color: black;
   font-weight: 500;
   font-family: "Source Sans Pro";
-  margin-bottom: calc(20px + 1vmin);
+  margin-bottom: calc(10px + 1vmin);
 }
 
 .chooseContainer {
@@ -40,30 +56,58 @@
   padding: calc(28px + 1vmin);
 }
 
-#searchContainer {
+#infoCell {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: calc(20px + 1vmin);
-  margin-bottom: calc(20px + 1vmin);
+  width: calc(270px + 1vmin);
+  min-width: calc(250px + 1vmin);
+  margin-right: calc(48px + 1vmin);
 }
 
-#filterContainer {
+#infoBigCell {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
-  margin-top: calc(20px + 1vmin);
-  margin-bottom: calc(20px + 1vmin);
+  width: calc(320px + 1vmin);
+  min-width: calc(300px + 1vmin);
 }
 
-.dropdownMargin {
-  margin-right: calc(16px + 1vmin);
-  width: calc(124px + 1vmin);
+.titleInfo {
+  color: black;
+  font-size: calc(14px + 1vmin);
+  font-weight: 600;
+  font-family: "Source Sans Pro";
+  margin-bottom: calc(4px + 1vmin);
+  margin-top: calc(16px + 1vmin);
+}
+
+.infoTitle {
+  color: #828282;
+  font-size: calc(12px + 1vmin);
+  font-weight: 500;
+  font-family: "Source Sans Pro";
+}
+
+.infoContent {
+  color: black;
+  font-size: calc(12px + 1vmin);
+  font-weight: 500;
+  font-family: "Source Sans Pro";
+}
+
+.btnStyle {
+  font-family: "Source Sans Pro";
+  width: calc(170px + 1vmin);
+  min-width: calc(150px + 1vmin);
+  height: calc(40px + 1vmin);
+  margin-right: calc(32px + 1vmin);
+  margin-top: calc(40px + 1vmin);
+  border-radius: 4px;
+}
+
+#dropdown {
+  width: calc(150px + 1vmin);
   min-width: calc(100px + 1vmin);
-}
-
-.filterBtn {
-  display: flex;
-  justify-content: space-between;
-  align-items: space-between;
+  font-family: "Source Sans Pro";
 }

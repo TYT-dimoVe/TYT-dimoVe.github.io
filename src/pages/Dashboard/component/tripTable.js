@@ -22,7 +22,7 @@ function TripList() {
   const refInput = useRef();
 
   useEffect(() => {
-    if (accountType !== 'admin') {
+    if (accountType && accountType !== 'admin') {
       dispatch(GetTripList.get({ busOperatorId: accountType }));
     } else {
       dispatch(GetTripList.get());

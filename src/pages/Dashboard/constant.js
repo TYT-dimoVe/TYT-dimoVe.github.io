@@ -7,22 +7,30 @@ export const CUSTOMER_STATUS = {
 export const PAYMENT_TYPE = [
   {
     value: "DIRECT",
-    text: "Thanh toán trực tiếp",
+    text: "Trực tiếp",
   },
   {
     value: "BANK_TRANSFER",
-    text: "Thanh toán bằng hình thức chuyển khoản",
+    text: "Chuyển khoản",
   },
   {
     value: "ATM_PAY",
-    text: "Thanh toán bằng thẻ nội địa",
+    text: "Thẻ nội địa",
   },
   {
     value: "MASTER_VISA",
-    text: "Thanh toán bằng thẻ Visa/Mastercard",
+    text: "Thẻ Visa/Mastercard",
   },
   {
     value: "MOMO_PAY",
-    text: "Thanh toán bằng Ví điện tử MOMO",
+    text: "Ví điện tử MOMO",
   },
 ];
+
+export const PAYMENT_TITLE = {
+  DIRECT: "Trực tiếp",
+  BANK_TRANSFER: "Chuyển khoản",
+  ATM_PAY: "Thẻ nội địa",
+  MASTER_VISA: "Thẻ Visa/Mastercard",
+  MOMO_PAY: "Ví điện tử MOMO",
+};
