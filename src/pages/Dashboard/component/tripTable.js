@@ -11,29 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLOR } from "ultis/functions";
 import { PAGE } from "../constant";
 import "../dashboard.css";
-import { GetTripList } from "../redux/actions";
+import { GetMapSeat, GetTripList } from "../redux/actions";
 import { getColumnSearchProps } from "./searchInput";
-
-const trip = {
-  availableSeat: 32,
-  busOperator: "Quang Hạnh",
-  busOperatorId: "QUANGHANH",
-  busType: "XE32",
-  busTypeTitle: "Limousine 32 giường",
-  dropOff: "Bến Xe Miền Đông - Quầy vé 34",
-  duration: "9h",
-  from: "NHATRANG",
-  pickUp: "Bến xe phía Nam Nha Trang mới",
-  price: 240000,
-  promotion: "",
-  promotionPrice: "",
-  thumbnail:
-    "https:////static.vexere.com/c/i/658/xe-quang-hanh-VeXeRe-wr4vzco-1000x600.jpeg?w=250&h=250",
-  timeEnd: "07:00",
-  timeStart: "22:00",
-  to: "SAIGON",
-  tripId: "C074",
-};
 
 const loadingIcon = (
   <LoadingOutlined style={{ fontSize: 30, color: COLOR.primary }} spin />
@@ -43,6 +22,8 @@ function TripList() {
   const tripList = useSelector((state) => state.Dashboard.tripList);
   const isLoading = useSelector((state) => state.Dashboard.isLoading);
   const accountType = useSelector((state) => state.Dashboard.accountType);
+  const mapSeat = useSelector((state) => state.Dashboard.mapSeat);
+  const trip = useSelector((state) => state.Dashboard.tripDetail);
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchColumn] = useState("");
@@ -51,7 +32,7 @@ function TripList() {
   const [routes, setRoutes] = useState([
     { breadcrumbName: "Danh sách đơn hàng" },
   ]);
-  const [date, setDate] = useState(moment(new Date()));
+  const [date, setDate] = useState(moment(new Date()).format('DD/MM/YYYY'));
 
   const getTripList = () => {
     if (accountType && accountType !== "admin") {
@@ -65,8 +46,9 @@ function TripList() {
   }, []);
 
   const handleEdit = (value, record) => {
-    // dispatch(GetOrderDetail.get({ search: record.ticketId, phoneNumber: record.phoneNumber }))
-    setRoutes(routes.concat([{ breadcrumbName: record.tripId }]));
+    console.log(record)
+    dispatch(GetMapSeat.get({ tripId: record.tripId, busType: record.busType, date }))
+    setRoutes([{ breadcrumbName: "Danh sách chuyến xe" }, { breadcrumbName: record.tripId }]);
     setCurrentPage(PAGE.TRIP);
   };
 
@@ -75,6 +57,11 @@ function TripList() {
     getTripList();
     setCurrentPage(PAGE.DEFAULT);
   };
+
+  const handleChangeDate = (value) => {
+    setDate(value)
+    dispatch(GetMapSeat.get({ tripId: trip.tripId, busType: trip.busType, date: value }))
+  }
 
   const breadcrumbItem = (route, params, routes, paths) => {
     if (route === routes[0]) {
@@ -170,13 +157,29 @@ function TripList() {
             />
             <DeleteOutlined
               style={{ fontSize: 20, color: "#FF0000" }}
-              onClick={() => {}}
+              onClick={() => { }}
             />
           </Space>
         );
       },
     },
   ];
+
+  const renderOneSeat = (seat) => (
+    <div className='seatStyle' style={{ backgroundColor: seat.status ? COLOR.lightBlue : COLOR.gray }}>
+      <span className="infoContent">{seat.seatId}</span>
+    </div>
+  )
+
+  const renderSeat = (floor) => (
+    <table style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+      {floor.map(item => (
+        <tr>
+          {item.map(seat => (<td>{seat ? renderOneSeat(seat) : <div className='seatStyle' style={{ backgroundColor: 'white' }} />}</td>))}
+        </tr>
+      ))}
+    </table>
+  )
 
   if (isLoading) {
     return (
@@ -217,28 +220,21 @@ function TripList() {
               <span className="infoTitle">Ngày khởi hành:</span>
               <DatePicker
                 locale={viVN}
-                defaultValue={date}
-                format="DD-MM-YYYY"
+                defaultValue={moment(date, 'DD/MM/YYYY')}
+                format="DD/MM/YYYY"
                 allowClear={false}
-                onChange={(value, dateStr) => setDate(dateStr)}
+                onChange={(value, dateStr) => handleChangeDate(dateStr)}
               />
             </div>
           </div>
         </div>
         <div style={{ display: "flex", marginTop: 24 }}>
           <div
-            style={{ backgroundColor: COLOR.orange }}
-            className="smallSquare"
-          />
-          <span className="infoContent" style={{ marginRight: 28 }}>
-            Ghế chưa thanh toán
-          </span>
-          <div
             style={{ backgroundColor: COLOR.lightBlue }}
             className="smallSquare"
           />
           <span className="infoContent" style={{ marginRight: 28 }}>
-            Ghế đã thanh toán
+            Ghế đã đặt
           </span>
           <div
             style={{ backgroundColor: COLOR.gray }}
@@ -248,6 +244,10 @@ function TripList() {
             Ghế trống
           </span>
         </div>
+        {mapSeat && <div style={{ display: 'flex', marginTop: 24 }}>
+          {renderSeat(mapSeat.floor1)}
+          {mapSeat.floor2 && mapSeat.floor2.length > 0 && renderSeat(mapSeat.floor2)}
+        </div>}
       </div>
     );
   }

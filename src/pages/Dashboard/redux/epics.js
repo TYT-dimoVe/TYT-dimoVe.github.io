@@ -1,7 +1,7 @@
 import { combineEpics, ofType } from 'redux-observable'
 import { catchError, exhaustMap, map } from 'rxjs/operators'
 import { request } from 'ultis/api'
-import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, EditOrderDetail, EditOrderDetailSuccess, EditOrderDetailFailed } from './actions'
+import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, EditOrderDetail, EditOrderDetailSuccess, EditOrderDetailFailed, GetMapSeat, GetMapSeatSuccess, GetMapSeatFailed } from './actions'
 
 const getBusOperatorEpic$ = (action$) =>
   action$.pipe(
@@ -155,4 +155,26 @@ const editOrderDetailEpic$ = (action$) =>
       )
     }))
 
-export const dashboardEpics = combineEpics(getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$)
+const getMapSeatEpic$ = (action$) =>
+  action$.pipe(
+    ofType(GetMapSeat.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'getSeatWeb',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            return GetMapSeatSuccess.get(result.result)
+          }
+          return GetMapSeatFailed.get(result)
+        }),
+        catchError((error) => {
+          return GetMapSeatFailed.get(error)
+        }
+        )
+      )
+    }))
+
+export const dashboardEpics = combineEpics(getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$)

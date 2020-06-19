@@ -28,6 +28,14 @@ export const GetOrderDetail = defineAction('GET_ORDER_DETAIL_REQUEST')
 export const GetOrderDetailSuccess = defineAction('GET_ORDER_DETAIL_SUCCESS')
 export const GetOrderDetailFailed = defineAction('GET_ORDER_DETAIL_FAILED')
 
+export const GetTripDetail = defineAction('GET_TRIP_DETAIL_REQUEST')
+export const GetTripDetailSuccess = defineAction('GET_TRIP_DETAIL_SUCCESS')
+export const GetTripDetailFailed = defineAction('GET_TRIP_DETAIL_FAILED')
+
 export const EditOrderDetail = defineAction('EDIT_ORDER_DETAIL_REQUEST')
 export const EditOrderDetailSuccess = defineAction('EDIT_ORDER_DETAIL_SUCCESS')
 export const EditOrderDetailFailed = defineAction('EDIT_ORDER_DETAIL_FAILED')
+
+export const GetMapSeat = defineAction('GET_MAP_SEAT_REQUEST')
+export const GetMapSeatSuccess = defineAction('GET_MAP_SEAT_SUCCESS')
+export const GetMapSeatFailed = defineAction('GET_MAP_SEAT_FAILED')

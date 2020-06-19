@@ -1,4 +1,4 @@
-import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, SetTypeAccount, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetAccountType, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed } from './actions'
+import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, SetTypeAccount, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetAccountType, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, GetMapSeat, GetMapSeatSuccess, GetMapSeatFailed } from './actions'
 
 const initialState = {
   busOperator: [],
@@ -8,8 +8,10 @@ const initialState = {
   accountType: null,
   isLoading: false,
   isLoadingDashboard: false,
-  accountDetail: null,
-  orderDetail: null
+  accountDetail: {},
+  orderDetail: {},
+  mapSeat: {},
+  tripDetail: {}
 }
 
 export function dashboardReducer(state = initialState, action) {
@@ -53,6 +55,12 @@ export function dashboardReducer(state = initialState, action) {
     case GetOrderDetailSuccess.type:
       return { ...state, orderDetail: action.payload, isLoading: false }
     case GetOrderDetailFailed.type:
+      return { ...state, isLoading: false }
+    case GetMapSeat.type:
+      return { ...state, isLoading: true }
+    case GetMapSeatSuccess.type:
+      return { ...state, mapSeat: action.payload.seats, tripDetail: action.payload.trip, isLoading: false }
+    case GetMapSeatFailed.type:
       return { ...state, isLoading: false }
     default:
       return state

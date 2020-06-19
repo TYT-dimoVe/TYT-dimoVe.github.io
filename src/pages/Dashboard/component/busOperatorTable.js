@@ -7,6 +7,7 @@ import { COLOR } from "ultis/functions";
 import "../dashboard.css";
 import { GetBusOperator } from "../redux/actions";
 import { getColumnSearchProps } from "./searchInput";
+import firebase from 'firebase'
 
 const loadingIcon = (
   <LoadingOutlined style={{ fontSize: 30, color: COLOR.primary }} spin />
@@ -25,7 +26,6 @@ function BusOperator() {
   }, []);
 
   const onAddNewBusOperator = () => {
-    console.log(new Date().getTime())
   }
 
   const busOperatorColumns = [

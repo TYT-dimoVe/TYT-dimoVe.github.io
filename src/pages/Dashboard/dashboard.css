@@ -119,3 +119,15 @@
   border-radius: 4px;
   margin-right: calc(12px + 0.5vmin);
 }
+
+.seatStyle {
+  display: flex;
+  flex: 1;
+  width: calc(90px + 0.5vmin);
+  min-width: calc(70px + 0.5vmin);
+  height: calc(90px + 0.5vmin);
+  min-height: calc(70px + 0.5vmin);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
