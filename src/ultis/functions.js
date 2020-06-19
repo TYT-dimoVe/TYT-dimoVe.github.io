@@ -3,7 +3,9 @@ export const DOMAIN = 'https://us-central1-dimo-3e6f7.cloudfunctions.net/dimoApi
 export const __DEV__ = false;
 export const COLOR = {
   primary: '#2E4170',
-  orange: '#FF7000'
+  orange: '#FF7000',
+  lightBlue: '#3CA0F7',
+  gray: '#C4C4C4'
 }
 
 export function log(...arg) {

@@ -71,6 +71,7 @@
   align-items: center;
   width: calc(320px + 1vmin);
   min-width: calc(300px + 1vmin);
+  margin-right: calc(48px + 1vmin);
 }
 
 .titleInfo {
@@ -110,4 +111,11 @@
   width: calc(150px + 1vmin);
   min-width: calc(100px + 1vmin);
   font-family: "Source Sans Pro";
+}
+
+.smallSquare {
+  width: calc(20px + 0.5vmin);
+  height: calc(20px + 0.5vmin);
+  border-radius: 4px;
+  margin-right: calc(12px + 0.5vmin);
 }
