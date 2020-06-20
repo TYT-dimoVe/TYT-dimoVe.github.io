@@ -1,7 +1,9 @@
+import { store } from 'core/store'
 import { combineEpics, ofType } from 'redux-observable'
 import { catchError, exhaustMap, map } from 'rxjs/operators'
 import { request } from 'ultis/api'
-import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, EditOrderDetail, EditOrderDetailSuccess, EditOrderDetailFailed, GetMapSeat, GetMapSeatSuccess, GetMapSeatFailed } from './actions'
+import { PAGE } from '../constant'
+import { EditOrderDetail, EditOrderDetailFailed, EditOrderDetailSuccess, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetStatistic, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, SetCurrentPage, SetTypeAccount } from './actions'
 
 const getBusOperatorEpic$ = (action$) =>
   action$.pipe(
@@ -100,6 +102,7 @@ const getBusOperatorDetailEpic$ = (action$) =>
       }).pipe(
         map((result) => {
           if (result.status === 200) {
+            store.dispatch(SetTypeAccount.get(action.payload.busOperatorId))
             return GetBusOperatorDetailSuccess.get(result.result)
           }
           return GetBusOperatorDetailFailed.get(result)
@@ -117,11 +120,12 @@ const getOrderDetailEpic$ = (action$) =>
     exhaustMap(action => {
       return request({
         method: 'POST',
-        url: 'findTickets',
+        url: 'findTicketWeb',
         param: action.payload
       }).pipe(
         map((result) => {
           if (result.status === 200) {
+            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.ORDER_LIST, detailPage: PAGE.ORDER_DETAIL }))
             return GetOrderDetailSuccess.get(result.result)
           }
           return GetOrderDetailFailed.get(result)
@@ -177,4 +181,26 @@ const getMapSeatEpic$ = (action$) =>
       )
     }))
 
-export const dashboardEpics = combineEpics(getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$)
+const getStatisticEpic$ = (action$) =>
+  action$.pipe(
+    ofType(GetStatistic.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'getTotal',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            return GetStatisticSuccess.get(result.result)
+          }
+          return GetStatisticFailed.get(result)
+        }),
+        catchError((error) => {
+          return GetStatisticFailed.get(error)
+        }
+        )
+      )
+    }))
+
+export const dashboardEpics = combineEpics(getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$, getStatisticEpic$)

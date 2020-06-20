@@ -1,5 +1,5 @@
-import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, SetTypeAccount, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetAccountType, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, GetMapSeat, GetMapSeatSuccess, GetMapSeatFailed } from './actions'
-
+import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, SetTypeAccount, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetAccountType, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, GetMapSeat, GetMapSeatSuccess, GetMapSeatFailed, SetCurrentPage, ResetDashboard, GetStatistic, GetStatisticSuccess, GetStatisticFailed } from './actions'
+import { PAGE } from 'pages/Dashboard/constant'
 const initialState = {
   busOperator: [],
   tripList: [],
@@ -8,10 +8,12 @@ const initialState = {
   accountType: null,
   isLoading: false,
   isLoadingDashboard: false,
-  accountDetail: {},
+  accountDetail: null,
   orderDetail: {},
-  mapSeat: {},
-  tripDetail: {}
+  tripDetail: {},
+  currentPage: PAGE.HOME,
+  detailPage: null,
+  stastic: null
 }
 
 export function dashboardReducer(state = initialState, action) {
@@ -59,8 +61,18 @@ export function dashboardReducer(state = initialState, action) {
     case GetMapSeat.type:
       return { ...state, isLoading: true }
     case GetMapSeatSuccess.type:
-      return { ...state, mapSeat: action.payload.seats, tripDetail: action.payload.trip, isLoading: false }
+      return { ...state, tripDetail: action.payload, isLoading: false }
     case GetMapSeatFailed.type:
+      return { ...state, isLoading: false }
+    case SetCurrentPage.type:
+      return { ...state, currentPage: action.payload.currentPage, detailPage: action.payload.detailPage }
+    case ResetDashboard.type:
+      return { ...initialState }
+    case GetStatistic.type:
+      return { ...state, isLoading: true }
+    case GetStatisticSuccess.type:
+      return { ...state, stastic: action.payload, isLoading: false }
+    case GetStatisticFailed.type:
       return { ...state, isLoading: false }
     default:
       return state

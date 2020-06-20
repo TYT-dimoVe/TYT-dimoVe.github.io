@@ -39,3 +39,10 @@ export const EditOrderDetailFailed = defineAction('EDIT_ORDER_DETAIL_FAILED')
 export const GetMapSeat = defineAction('GET_MAP_SEAT_REQUEST')
 export const GetMapSeatSuccess = defineAction('GET_MAP_SEAT_SUCCESS')
 export const GetMapSeatFailed = defineAction('GET_MAP_SEAT_FAILED')
+
+export const SetCurrentPage = defineAction('SET_CURRENT_PAGE')
+export const ResetDashboard = defineAction('RESET_DASHBOARD')
+
+export const GetStatistic = defineAction('GET_STATISTIC_REQUEST')
+export const GetStatisticSuccess = defineAction('GET_STATISTIC_SUCCESS')
+export const GetStatisticFailed = defineAction('GET_STATISTIC_FAILED')

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLOR, formatCurrency } from "ultis/functions";
 import { PAGE, PAYMENT_TYPE } from "../constant";
 import "../dashboard.css";
-import { GetOrderDetail, GetOrderList } from "../redux/actions";
+import { GetOrderDetail, GetOrderList, SetCurrentPage } from "../redux/actions";
 import EditOrderPage from "./editOrderPage";
 import { getColumnSearchProps } from "./searchInput";
 
@@ -19,12 +19,12 @@ function OrderList() {
   const orderList = useSelector((state) => state.Dashboard.orderList);
   const isLoading = useSelector((state) => state.Dashboard.isLoading);
   const accountType = useSelector((state) => state.Dashboard.accountType);
+  const detailPage = useSelector((state) => state.Dashboard.detailPage);
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchColumn] = useState("");
   const refInput = useRef();
   const [filteredInfo, setFilterInfo] = useState(null);
-  const [currentPage, setCurrentPage] = useState(PAGE.DEFAULT);
 
   const getOrderList = () => {
     if (accountType && accountType !== "admin") {
@@ -46,15 +46,13 @@ function OrderList() {
     dispatch(
       GetOrderDetail.get({
         search: record.ticketId,
-        phoneNumber: record.phoneNumber,
       })
     );
-    setCurrentPage(PAGE.ORDER);
   };
 
   const handleReset = () => {
     getOrderList();
-    setCurrentPage(PAGE.DEFAULT);
+    dispatch(SetCurrentPage.get({ currentPage: PAGE.ORDER_LIST }))
   };
 
   const orderColumns = [
@@ -174,7 +172,7 @@ function OrderList() {
       </div>
     );
   }
-  if (currentPage === PAGE.ORDER) {
+  if (detailPage === PAGE.ORDER_DETAIL) {
     return <EditOrderPage handleReset={handleReset} />;
   }
   return (

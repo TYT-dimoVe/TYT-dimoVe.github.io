@@ -5,9 +5,13 @@ export const CUSTOMER_STATUS = {
 };
 
 export const PAGE = {
-  DEFAULT: "default",
-  ORDER: "order",
-  TRIP: "trip",
+  HOME: "HOME",
+  BUS_OPERATOR: 'BUS_OPERATOR',
+  TRIP_LIST: 'TRIP_LIST',
+  ORDER_LIST: 'ORDER_LIST',
+  CUSTOMER_LIST: 'CUSTOMER_LIST',
+  ORDER_DETAIL: "ORDER_DETAIL",
+  TRIP_DETAIL: "TRIP_DETAIL",
 };
 
 export const PAYMENT_TYPE = [

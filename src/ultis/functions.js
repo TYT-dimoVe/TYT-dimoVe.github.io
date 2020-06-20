@@ -1,6 +1,6 @@
 export const DOMAIN = 'https://us-central1-dimo-3e6f7.cloudfunctions.net/dimoApi/api'
 // export const DOMAIN = 'http://localhost:5001/dimo-3e6f7/us-central1/dimoApi/api'
-export const __DEV__ = true;
+export const __DEV__ = false;
 export const COLOR = {
   primary: '#2E4170',
   orange: '#FF7000',

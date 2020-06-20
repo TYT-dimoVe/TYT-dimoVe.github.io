@@ -131,3 +131,42 @@
   align-items: center;
   flex-direction: column;
 }
+
+#statisticWrap {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.boxStyle {
+  border: 1px solid #2e4170;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  min-width: calc(150px + 0.5vmin);
+  margin-right: 12px;
+  margin-bottom: 24px;
+}
+
+.titleBox {
+  font-family: "Source Sans Pro";
+  font-weight: 600;
+  font-size: calc(16px + 0.5vmin);
+  line-height: calc(24px + 0.5vmin);
+  text-align: center;
+  color: #2e4170;
+}
+
+.amountStyle {
+  font-family: "Source Sans Pro";
+  font-style: normal;
+  font-weight: bold;
+  font-size: calc(30px + 0.5vmin);
+  line-height: 44px;
+  text-align: center;
+  letter-spacing: 1px;
+  color: #252733;
+}
