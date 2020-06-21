@@ -46,3 +46,7 @@ export const ResetDashboard = defineAction('RESET_DASHBOARD')
 export const GetStatistic = defineAction('GET_STATISTIC_REQUEST')
 export const GetStatisticSuccess = defineAction('GET_STATISTIC_SUCCESS')
 export const GetStatisticFailed = defineAction('GET_STATISTIC_FAILED')
+
+export const GetStatisticAmount = defineAction('GET_STATISTIC_AMOUNT_REQUEST')
+export const GetStatisticAmountSuccess = defineAction('GET_STATISTIC_AMOUNT_SUCCESS')
+export const GetStatisticAmountFailed = defineAction('GET_STATISTIC_AMOUNT_FAILED')

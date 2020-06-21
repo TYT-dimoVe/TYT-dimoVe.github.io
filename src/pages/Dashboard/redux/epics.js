@@ -1,9 +1,10 @@
 import { store } from 'core/store'
+import moment from 'moment'
 import { combineEpics, ofType } from 'redux-observable'
 import { catchError, exhaustMap, map } from 'rxjs/operators'
 import { request } from 'ultis/api'
 import { PAGE } from '../constant'
-import { EditOrderDetail, EditOrderDetailFailed, EditOrderDetailSuccess, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetStatistic, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, SetCurrentPage, SetTypeAccount } from './actions'
+import { EditOrderDetail, EditOrderDetailFailed, EditOrderDetailSuccess, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetStatistic, GetStatisticAmount, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, SetCurrentPage, SetTypeAccount } from './actions'
 
 const getBusOperatorEpic$ = (action$) =>
   action$.pipe(
@@ -192,6 +193,7 @@ const getStatisticEpic$ = (action$) =>
       }).pipe(
         map((result) => {
           if (result.status === 200) {
+            store.dispatch(GetStatisticAmount.get({ busOperatorId: action.payload.busOperatorId, from: moment(new Date()).add(-7, 'days').format('DD/MM/YYYY'), to: moment(new Date()).format('DD/MM/YYYY') }))
             return GetStatisticSuccess.get(result.result)
           }
           return GetStatisticFailed.get(result)
@@ -203,4 +205,26 @@ const getStatisticEpic$ = (action$) =>
       )
     }))
 
-export const dashboardEpics = combineEpics(getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$, getStatisticEpic$)
+const getStatisticAmountEpic$ = (action$) =>
+  action$.pipe(
+    ofType(GetStatisticAmount.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'getStatistic',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            return GetStatisticAmountSuccess.get(result.result)
+          }
+          return GetStatisticAmountFailed.get(result)
+        }),
+        catchError((error) => {
+          return GetStatisticAmountFailed.get(error)
+        }
+        )
+      )
+    }))
+
+export const dashboardEpics = combineEpics(getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$, getStatisticEpic$, getStatisticAmountEpic$)

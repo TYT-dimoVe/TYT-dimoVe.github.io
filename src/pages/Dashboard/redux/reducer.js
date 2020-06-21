@@ -1,4 +1,4 @@
-import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, SetTypeAccount, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetAccountType, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, GetMapSeat, GetMapSeatSuccess, GetMapSeatFailed, SetCurrentPage, ResetDashboard, GetStatistic, GetStatisticSuccess, GetStatisticFailed } from './actions'
+import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, SetTypeAccount, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetAccountType, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, GetMapSeat, GetMapSeatSuccess, GetMapSeatFailed, SetCurrentPage, ResetDashboard, GetStatistic, GetStatisticSuccess, GetStatisticFailed, GetStatisticAmountSuccess, GetStatisticAmountFailed } from './actions'
 import { PAGE } from 'pages/Dashboard/constant'
 const initialState = {
   busOperator: [],
@@ -13,7 +13,8 @@ const initialState = {
   tripDetail: {},
   currentPage: PAGE.HOME,
   detailPage: null,
-  stastic: null
+  stastic: null,
+  statisticData: null
 }
 
 export function dashboardReducer(state = initialState, action) {
@@ -71,8 +72,12 @@ export function dashboardReducer(state = initialState, action) {
     case GetStatistic.type:
       return { ...state, isLoading: true }
     case GetStatisticSuccess.type:
-      return { ...state, stastic: action.payload, isLoading: false }
+      return { ...state, stastic: action.payload }
     case GetStatisticFailed.type:
+      return { ...state, isLoading: false }
+    case GetStatisticAmountSuccess.type:
+      return { ...state, statisticData: action.payload, isLoading: false }
+    case GetStatisticAmountFailed.type:
       return { ...state, isLoading: false }
     default:
       return state

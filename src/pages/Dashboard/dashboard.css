@@ -170,3 +170,26 @@
   letter-spacing: 1px;
   color: #252733;
 }
+
+.boxCloneStyle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  min-width: calc(150px + 0.5vmin);
+  margin-bottom: 24px;
+}
+
+#boxStatistic {
+  border: 1px solid #2e4170;
+  box-sizing: border-box;
+  border-radius: 8px;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-width: calc(800px + 0.5vmin);
+  padding: 16px;
+}
