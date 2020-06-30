@@ -8,6 +8,7 @@ import { CartesianGrid, Label, Line, LineChart, Tooltip, XAxis, YAxis } from 're
 import { COLOR, formatCurrency } from "ultis/functions";
 import "../dashboard.css";
 import { GetStatistic, GetStatisticAmount } from "../redux/actions";
+import viVN from "antd/es/locale/vi_VN";
 
 const { RangePicker } = DatePicker;
 
@@ -60,19 +61,19 @@ function Home() {
         </div>
       </div>
       <div id='boxStatistic'>
-        <div style={{ display: 'flex', flex: 3, flexDirection: 'column' }}>
-          <RangePicker style={{ marginBottom: 16, width: 300 }} onChange={(value, dateStr) => handleChangeRange(dateStr)} format='DD/MM/YYYY' allowClear={false} value={[moment(statisticData.from, 'DD/MM/YYYY'), moment(statisticData.to, 'DD/MM/YYYY')]} />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <RangePicker locale={viVN} style={{ marginBottom: 16, width: 300 }} onChange={(value, dateStr) => handleChangeRange(dateStr)} format='DD/MM/YYYY' allowClear={false} value={[moment(statisticData.from, 'DD/MM/YYYY'), moment(statisticData.to, 'DD/MM/YYYY')]} />
           <LineChart width={700} height={400} data={statisticData.statisticData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
             <Line type='monotone' dataKey="amount" stroke={COLOR.primary} />
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis height={50} dataKey="name">
-              <Label value={statisticData.xtype} offset={0} position="insideBottom" />
+              <Label value={statisticData.xtype} style={{ fontFamily: 'Source Sans Pro' }} offset={0} position="insideBottom" />
             </XAxis>
-            <YAxis label={{ value: 'Doanh thu', angle: -90, position: 'insideLeft' }} width={110} tickFormatter={number => { return formatCurrency(number) }} />
+            <YAxis label={{ value: 'Doanh thu', angle: -90, position: 'insideLeft', fontFamily: 'Source Sans Pro' }} width={110} tickFormatter={number => { return formatCurrency(number) }} />
             <Tooltip formatter={(value, name, props) => { return [formatCurrency(value), "Doanh thu"] }} />
           </LineChart>
         </div>
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div className='boxCloneStyle'>
             <span className='titleBox'>Tổng doanh thu</span>
             <span className='amountStyle'>{formatCurrency(statisticData.totalAmount)}</span>

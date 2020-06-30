@@ -50,3 +50,31 @@ export const GetStatisticFailed = defineAction('GET_STATISTIC_FAILED')
 export const GetStatisticAmount = defineAction('GET_STATISTIC_AMOUNT_REQUEST')
 export const GetStatisticAmountSuccess = defineAction('GET_STATISTIC_AMOUNT_SUCCESS')
 export const GetStatisticAmountFailed = defineAction('GET_STATISTIC_AMOUNT_FAILED')
+
+export const GetCityData = defineAction('GET_CITY_DATA_REQUEST')
+export const GetCityDataSuccess = defineAction('GET_CITY_DATA_SUCCESS')
+export const GetCityDataFailed = defineAction('GET_CITY_DATA_FAILED')
+
+export const GetDistrictData = defineAction('GET_DISTRICT_DATA_REQUEST')
+export const GetDistrictSuccess = defineAction('GET_DISTRICT_DATA_SUCCESS')
+export const GetDistrictFailed = defineAction('GET_DISTRICT_DATA_FAILED')
+
+export const GetWardData = defineAction('GET_WARD_DATA_REQUEST')
+export const GetWardDataSuccess = defineAction('GET_WARD_DATA_SUCCESS')
+export const GetWardDataFailed = defineAction('GET_WARD_DATA_FAILED')
+
+export const GetPromotion = defineAction('GET_PROMOTION_REQUEST')
+export const GetPromotionSuccess = defineAction('GET_PROMOTION_SUCCESS')
+export const GetPromotionFailed = defineAction('GET_PROMOTION_FAILED')
+
+export const CreateNewPromotion = defineAction('CREATE_NEW_PROMOTION_REQUEST')
+export const CreateNewPromotionSuccess = defineAction('CREATE_NEW_PROMOTION_SUCCESS')
+export const CreateNewPromotionFailed = defineAction('CREATE_NEW_PROMOTION_FAILED')
+
+export const DeletePromotion = defineAction('DELETE_PROMOTION_REQUEST')
+export const DeletePromotionSuccess = defineAction('DELETE_PROMOTION_SUCCESS')
+export const DeletePromotionFailed = defineAction('DELETE_PROMOTION_FAILED')
+
+export const ActivatePromotion = defineAction('ACTIVATE_PROMOTION_REQUEST')
+export const ActivatePromotionSuccess = defineAction('ACTIVATE_PROMOTION_SUCCESS')
+export const ActivatePromotionFailed = defineAction('ACTIVATE_PROMOTION_FAILED')

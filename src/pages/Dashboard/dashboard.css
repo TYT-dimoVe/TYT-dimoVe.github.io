@@ -32,7 +32,7 @@
 }
 
 #adminName {
-  font-size: calc(22px + 1vmin);
+  font-size: calc(18px + 1vmin);
   color: white;
   text-align: center;
   font-weight: 500;
@@ -42,7 +42,7 @@
 }
 
 .titleTopic {
-  font-size: calc(22px + 1vmin);
+  font-size: calc(18px + 1vmin);
   color: black;
   font-weight: 500;
   font-family: "Source Sans Pro";
@@ -76,7 +76,7 @@
 
 .titleInfo {
   color: black;
-  font-size: calc(14px + 1vmin);
+  font-size: calc(10px + 1vmin);
   font-weight: 600;
   font-family: "Source Sans Pro";
   margin-bottom: calc(4px + 1vmin);
@@ -85,14 +85,14 @@
 
 .infoTitle {
   color: #828282;
-  font-size: calc(12px + 1vmin);
+  font-size: calc(8px + 1vmin);
   font-weight: 500;
   font-family: "Source Sans Pro";
 }
 
 .infoContent {
   color: black;
-  font-size: calc(12px + 1vmin);
+  font-size: calc(8px + 1vmin);
   font-weight: 500;
   font-family: "Source Sans Pro";
 }
@@ -154,7 +154,7 @@
 .titleBox {
   font-family: "Source Sans Pro";
   font-weight: 600;
-  font-size: calc(16px + 0.5vmin);
+  font-size: calc(12px + 0.5vmin);
   line-height: calc(24px + 0.5vmin);
   text-align: center;
   color: #2e4170;
@@ -187,9 +187,114 @@
   border-radius: 8px;
   display: flex;
   flex: 1;
+  width: calc(990px + 0.5vmin);
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  min-width: calc(800px + 0.5vmin);
-  padding: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.rowAdd {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: calc(4px + 0.5vmin);
+  margin-top: calc(16px + 0.5vmin);
+}
+
+.addTitle {
+  color: black;
+  font-size: calc(8px + 1vmin);
+  font-weight: 600;
+  font-family: "Source Sans Pro";
+  width: calc(120px + 0.5vmin);
+}
+
+.addInput {
+  height: 40px;
+  width: calc(450px + 0.5vmin);
+  background: #ffffff;
+  border-radius: calc(4px + 1vmin);
+  border: 1px solid #d9d9d9;
+  font-family: "Source Sans Pro";
+  font-size: calc(8px + 1vmin);
+}
+
+.errorAdd {
+  font-family: "Source Sans Pro";
+  font-size: calc(6px + 1vmin);
+  color: red;
+  margin-bottom: calc(8px + 1vmin);
+  margin-left: calc(120px + 0.5vmin);
+}
+
+div.ant-select-single {
+  border-radius: calc(4px + 1vmin) calc(4px + 1vmin) calc(4px + 1vmin)
+    calc(4px + 1vmin);
+  height: 40px;
+}
+
+.ant-select-selection-selected-value {
+  height: 40px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.ant-select-selection__rendered {
+  padding: 0px;
+  margin: 0px;
+}
+
+.ant-select-dropdown-menu.ant-select-dropdown-menu-root.ant-select-dropdown-menu-vertical {
+  padding: 0px;
+  margin: 0px;
+}
+
+.ant-select-dropdown-menu-item {
+  padding: 0px;
+  margin: 0px;
+}
+
+.dropdownCity {
+  height: 40px;
+  /* background-color: #2e4170; */
+  width: calc(450px + 1vmin);
+  min-width: calc(100px + 1vmin);
+  font-family: "Source Sans Pro";
+  border: 1px solid #d9d9d9;
+  border-radius: calc(4px + 1vmin);
+  font-size: calc(8px + 1vmin);
+  margin-right: 8px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropdownNormal {
+  height: 40px;
+  /* background-color: #2e4170; */
+  width: calc(212px + 1vmin);
+  min-width: calc(100px + 1vmin);
+  font-family: "Source Sans Pro";
+  border: 1px solid #d9d9d9;
+  border-radius: calc(4px + 1vmin);
+  font-size: calc(8px + 1vmin);
+  margin-right: 8px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#rowDis {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: calc(4px + 0.5vmin);
+  margin-top: calc(4px + 0.5vmin);
 }

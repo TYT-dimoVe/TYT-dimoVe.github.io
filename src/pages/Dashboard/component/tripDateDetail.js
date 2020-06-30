@@ -89,15 +89,15 @@ function TripDateDetail(props) {
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div id="infoCell">
+          <div id="infoBigCell">
             <span className="infoTitle">Nhà xe:</span>
             <span className="infoContent">{trip.busOperator}</span>
           </div>
-          <div id="infoCell">
+          <div id="infoBigCell">
             <span className="infoTitle">Giờ khởi hành:</span>
             <span className="infoContent">{trip.timeStart}</span>
           </div>
-          <div id="infoCell">
+          <div id="infoBigCell">
             <span className="infoTitle">Ngày khởi hành:</span>
             <DatePicker
               locale={viVN}

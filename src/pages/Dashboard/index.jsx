@@ -6,7 +6,7 @@ import {
 import { Avatar, Button, Menu, Spin } from "antd";
 import firebase from "firebase";
 import React, { useEffect } from "react";
-import { FiFileText, FiUsers } from "react-icons/fi";
+import { FiFileText, FiUsers, FiGift } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { COLOR } from "ultis/functions";
@@ -23,6 +23,7 @@ import {
   ResetDashboard,
   SetCurrentPage,
 } from "./redux/actions";
+import PromotionList from "./component/promotionList";
 
 const loadingIcon = (
   <LoadingOutlined style={{ fontSize: 30, color: COLOR.primary }} spin />
@@ -74,6 +75,8 @@ function Dashboard() {
         return <BusOperator />;
       case PAGE.TRIP_LIST:
         return <TripList />;
+      case PAGE.PROMOTIONS:
+        return <PromotionList />;
       case PAGE.ORDER_LIST:
         return <OrderList />;
       case PAGE.CUSTOMER_LIST:
@@ -157,6 +160,15 @@ function Dashboard() {
           >
             Đơn hàng
           </Menu.Item>
+          {accountType === "admin" && (
+            <Menu.Item
+              style={{ color: "white" }}
+              key={PAGE.PROMOTIONS}
+              icon={<FiGift size={16} style={{ marginRight: 8 }} />}
+            >
+              Khuyến mãi
+            </Menu.Item>
+          )}
           {accountType === "admin" && (
             <Menu.Item
               style={{ color: "white" }}

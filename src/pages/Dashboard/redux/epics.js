@@ -4,7 +4,7 @@ import { combineEpics, ofType } from 'redux-observable'
 import { catchError, exhaustMap, map } from 'rxjs/operators'
 import { request } from 'ultis/api'
 import { PAGE } from '../constant'
-import { EditOrderDetail, EditOrderDetailFailed, EditOrderDetailSuccess, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetStatistic, GetStatisticAmount, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, SetCurrentPage, SetTypeAccount } from './actions'
+import { ActivatePromotion, ActivatePromotionFailed, ActivatePromotionSuccess, CreateNewPromotion, CreateNewPromotionFailed, CreateNewPromotionSuccess, DeletePromotion, DeletePromotionFailed, DeletePromotionSuccess, EditOrderDetail, EditOrderDetailFailed, EditOrderDetailSuccess, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCityData, GetCityDataFailed, GetCityDataSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetDistrictData, GetDistrictFailed, GetDistrictSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetPromotion, GetPromotionFailed, GetPromotionSuccess, GetStatistic, GetStatisticAmount, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, GetWardData, GetWardDataFailed, GetWardDataSuccess, SetCurrentPage, SetTypeAccount } from './actions'
 
 const getBusOperatorEpic$ = (action$) =>
   action$.pipe(
@@ -227,4 +227,160 @@ const getStatisticAmountEpic$ = (action$) =>
       )
     }))
 
-export const dashboardEpics = combineEpics(getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$, getStatisticEpic$, getStatisticAmountEpic$)
+const getCityDataEpic$ = (action$) =>
+  action$.pipe(
+    ofType(GetCityData.type),
+    exhaustMap(action => {
+      return request({
+        method: 'GET',
+        url: 'locationCity'
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            return GetCityDataSuccess.get(result.result)
+          }
+          return GetCityDataFailed.get(result)
+        }),
+        catchError((error) => {
+          return GetCityDataFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const getDistrictDataEpic$ = (action$) =>
+  action$.pipe(
+    ofType(GetDistrictData.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'locationDistrict',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            return GetDistrictSuccess.get(result.result)
+          }
+          return GetDistrictFailed.get(result)
+        }),
+        catchError((error) => {
+          return GetDistrictFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const getWardDataEpic$ = (action$) =>
+  action$.pipe(
+    ofType(GetWardData.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'locationWard',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            return GetWardDataSuccess.get(result.result)
+          }
+          return GetWardDataFailed.get(result)
+        }),
+        catchError((error) => {
+          return GetWardDataFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const getPromotionEpic$ = (action$) =>
+  action$.pipe(
+    ofType(GetPromotion.type),
+    exhaustMap(action => {
+      return request({
+        method: 'GET',
+        url: 'promotion'
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            return GetPromotionSuccess.get(result.result)
+          }
+          return GetPromotionFailed.get(result)
+        }),
+        catchError((error) => {
+          return GetPromotionFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const createNewPromotionEpic$ = (action$) =>
+  action$.pipe(
+    ofType(CreateNewPromotion.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'newPromotion',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            store.dispatch(GetPromotion.get())
+            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.PROMOTIONS }))
+            return CreateNewPromotionSuccess.get(result.result)
+          }
+          return CreateNewPromotionFailed.get(result)
+        }),
+        catchError((error) => {
+          return CreateNewPromotionFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const deletePromotionEpic$ = (action$) =>
+  action$.pipe(
+    ofType(DeletePromotion.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'deletePromotion',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            store.dispatch(GetPromotion.get())
+            return DeletePromotionSuccess.get(result.result)
+          }
+          return DeletePromotionFailed.get(result)
+        }),
+        catchError((error) => {
+          return DeletePromotionFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const activatePromotionEpic$ = (action$) =>
+  action$.pipe(
+    ofType(ActivatePromotion.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'activatePromotion',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            store.dispatch(GetPromotion.get())
+            return ActivatePromotionSuccess.get(result.result)
+          }
+          return ActivatePromotionFailed.get(result)
+        }),
+        catchError((error) => {
+          return ActivatePromotionFailed.get(error)
+        }
+        )
+      )
+    }))
+
+export const dashboardEpics = combineEpics(activatePromotionEpic$, deletePromotionEpic$, getCityDataEpic$, getWardDataEpic$, getDistrictDataEpic$, getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$, getStatisticEpic$, getStatisticAmountEpic$, getPromotionEpic$, createNewPromotionEpic$)

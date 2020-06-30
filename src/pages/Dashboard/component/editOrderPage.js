@@ -55,16 +55,16 @@ function EditOrderPage(props) {
     <div className="chooseContainer">
       <Breadcrumb itemRender={breadcrumbItem} routes={routes} separator=">" />
       <span className="titleInfo">Thông tin hành khách</span>
-      <div id="infoCell">
+      <div id="infoBigCell">
         <span className="infoTitle">Tên:</span>
         <span className="infoContent">{orderDetail.customerName}</span>
       </div>
-      <div id="infoCell">
+      <div id="infoBigCell">
         <span className="infoTitle">Số điện thoại:</span>
         <span className="infoContent">{orderDetail.phoneNumber}</span>
       </div>
       {orderDetail.customerEmail && (
-        <div id="infoCell">
+        <div id="infoBigCell">
           <span className="infoTitle">Email:</span>
           <span className="infoContent">{orderDetail.customerEmail}</span>
         </div>

@@ -4,8 +4,10 @@ import "antd/dist/antd.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { COLOR } from "ultis/functions";
+import { PAGE } from "../constant";
 import "../dashboard.css";
-import { GetBusOperator } from "../redux/actions";
+import { GetBusOperator, SetCurrentPage, GetCityData } from "../redux/actions";
+import AddBusOperatorPage from "./addBusOperator";
 import { getColumnSearchProps } from "./searchInput";
 
 const loadingIcon = (
@@ -14,6 +16,7 @@ const loadingIcon = (
 
 function BusOperator() {
   const busOperator = useSelector((state) => state.Dashboard.busOperator);
+  const detailPage = useSelector((state) => state.Dashboard.detailPage);
   const isLoading = useSelector((state) => state.Dashboard.isLoading);
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
@@ -25,6 +28,8 @@ function BusOperator() {
   }, []);
 
   const onAddNewBusOperator = () => {
+    dispatch(GetCityData.get())
+    dispatch(SetCurrentPage.get({ currentPage: PAGE.BUS_OPERATOR, detailPage: PAGE.ADD_OPERATOR }))
   }
 
   const busOperatorColumns = [
@@ -90,6 +95,13 @@ function BusOperator() {
       </div>
     );
   }
+
+  if (detailPage === PAGE.ADD_OPERATOR) {
+    return (
+      <AddBusOperatorPage />
+    );
+  }
+
   return (
     <div className="chooseContainer">
       <span className="titleTopic">Danh sách nhà xe</span>

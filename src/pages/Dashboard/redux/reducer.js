@@ -1,5 +1,5 @@
-import { GetBusOperator, GetBusOperatorFailed, GetBusOperatorSuccess, GetTripList, GetTripListSuccess, GetTripListFailed, GetOrderList, GetOrderListSuccess, GetOrderListFailed, SetTypeAccount, GetCustomerList, GetCustomerListSuccess, GetCustomerListFailed, GetBusOperatorDetail, GetBusOperatorDetailSuccess, GetBusOperatorDetailFailed, GetAccountType, GetOrderDetail, GetOrderDetailSuccess, GetOrderDetailFailed, GetMapSeat, GetMapSeatSuccess, GetMapSeatFailed, SetCurrentPage, ResetDashboard, GetStatistic, GetStatisticSuccess, GetStatisticFailed, GetStatisticAmountSuccess, GetStatisticAmountFailed } from './actions'
 import { PAGE } from 'pages/Dashboard/constant'
+import { GetAccountType, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCityData, GetCityDataFailed, GetCityDataSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetDistrictSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetStatistic, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, GetWardDataSuccess, ResetDashboard, SetCurrentPage, SetTypeAccount, GetPromotion, GetPromotionSuccess, GetPromotionFailed } from './actions'
 const initialState = {
   busOperator: [],
   tripList: [],
@@ -14,7 +14,11 @@ const initialState = {
   currentPage: PAGE.HOME,
   detailPage: null,
   stastic: null,
-  statisticData: null
+  statisticData: null,
+  cityData: [],
+  districtData: [],
+  wardData: [],
+  promotions: []
 }
 
 export function dashboardReducer(state = initialState, action) {
@@ -78,6 +82,22 @@ export function dashboardReducer(state = initialState, action) {
     case GetStatisticAmountSuccess.type:
       return { ...state, statisticData: action.payload, isLoading: false }
     case GetStatisticAmountFailed.type:
+      return { ...state, isLoading: false }
+    case GetCityData.type:
+      return { ...state, isLoading: true }
+    case GetCityDataSuccess.type:
+      return { ...state, cityData: action.payload, districtData: [], wardData: [], isLoading: false }
+    case GetCityDataFailed.type:
+      return { ...state, isLoading: false }
+    case GetDistrictSuccess.type:
+      return { ...state, districtData: action.payload, wardData: [] }
+    case GetWardDataSuccess.type:
+      return { ...state, wardData: action.payload }
+    case GetPromotion.type:
+      return { ...state, isLoading: true }
+    case GetPromotionSuccess.type:
+      return { ...state, promotions: action.payload, isLoading: false }
+    case GetPromotionFailed.type:
       return { ...state, isLoading: false }
     default:
       return state
