@@ -1,5 +1,5 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Input, message, Select, Spin, Upload } from "antd";
+import { Button, Input, message, Select, Spin, Upload, Modal } from "antd";
 import "antd/dist/antd.css";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
@@ -8,7 +8,7 @@ import { COLOR, MAP_API_KEY } from "ultis/functions";
 import * as yup from "yup";
 import { PAGE } from "../constant";
 import "../dashboard.css";
-import { GetDistrictData, GetWardData, SetCurrentPage } from "../redux/actions";
+import { GetDistrictData, GetWardData, SetCurrentPage, AddBusOperator } from "../redux/actions";
 import axios from 'axios';
 
 const { Option } = Select;
@@ -131,8 +131,12 @@ function AddBusOperatorPage(props) {
           long: results[0].position.lon
         }
       }
-      console.log(data)
-    })
+      dispatch(AddBusOperator.get(data))
+    }).catch(error => Modal.info({
+      title: 'Lỗi',
+      content: 'Đã có lỗi xảy ra. Vui lòng thử lại sau.',
+      onOk() { },
+    }))
   }
 
   if (isLoading) {
