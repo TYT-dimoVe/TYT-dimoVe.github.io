@@ -4,7 +4,7 @@ import { combineEpics, ofType } from 'redux-observable'
 import { catchError, exhaustMap, map } from 'rxjs/operators'
 import { request } from 'ultis/api'
 import { PAGE } from '../constant'
-import { ActivatePromotion, ActivatePromotionFailed, ActivatePromotionSuccess, CreateNewPromotion, CreateNewPromotionFailed, CreateNewPromotionSuccess, DeletePromotion, DeletePromotionFailed, DeletePromotionSuccess, EditOrderDetail, EditOrderDetailFailed, EditOrderDetailSuccess, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCityData, GetCityDataFailed, GetCityDataSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetDistrictData, GetDistrictFailed, GetDistrictSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetPromotion, GetPromotionFailed, GetPromotionSuccess, GetStatistic, GetStatisticAmount, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, GetWardData, GetWardDataFailed, GetWardDataSuccess, SetCurrentPage, SetTypeAccount } from './actions'
+import { ActivatePromotion, ActivatePromotionFailed, ActivatePromotionSuccess, CreateNewPromotion, CreateNewPromotionFailed, CreateNewPromotionSuccess, DeletePromotion, DeletePromotionFailed, DeletePromotionSuccess, EditOrderDetail, EditOrderDetailFailed, EditOrderDetailSuccess, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCityData, GetCityDataFailed, GetCityDataSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetDistrictData, GetDistrictFailed, GetDistrictSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetPromotion, GetPromotionFailed, GetPromotionSuccess, GetStatistic, GetStatisticAmount, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, GetWardData, GetWardDataFailed, GetWardDataSuccess, SetCurrentPage, SetTypeAccount, GetDetailPromotion, GetDetailPromotionSuccess, GetDetailPromotionFailed, AddBusOperator, AddBusOperatorSuccess, AddBusOperatorFailed, DeleteBusOperator, DeleteBusOperatorSuccess, DeleteBusOperatorFailed } from './actions'
 
 const getBusOperatorEpic$ = (action$) =>
   action$.pipe(
@@ -383,4 +383,100 @@ const activatePromotionEpic$ = (action$) =>
       )
     }))
 
-export const dashboardEpics = combineEpics(activatePromotionEpic$, deletePromotionEpic$, getCityDataEpic$, getWardDataEpic$, getDistrictDataEpic$, getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$, getStatisticEpic$, getStatisticAmountEpic$, getPromotionEpic$, createNewPromotionEpic$)
+const getDetailPromotionEpic$ = (action$) =>
+  action$.pipe(
+    ofType(GetDetailPromotion.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'promotionDetail',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.PROMOTIONS, detailPage: PAGE.DETAIL_PROMOTION }))
+            return GetDetailPromotionSuccess.get(result.result)
+          }
+          return GetDetailPromotionFailed.get(result)
+        }),
+        catchError((error) => {
+          return GetDetailPromotionFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const addBusOperatorEpic$ = (action$) =>
+  action$.pipe(
+    ofType(AddBusOperator.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'newBusOperator',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            store.dispatch(GetBusOperator.get())
+            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.BUS_OPERATOR }))
+            return AddBusOperatorSuccess.get(result.result)
+          }
+          return AddBusOperatorFailed.get(result)
+        }),
+        catchError((error) => {
+          return AddBusOperatorFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const deleteBusOperatorEpic$ = (action$) =>
+  action$.pipe(
+    ofType(DeleteBusOperator.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'deleteBusOperator',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            store.dispatch(GetBusOperator.get())
+            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.BUS_OPERATOR }))
+            return DeleteBusOperatorSuccess.get(result.result)
+          }
+          return DeleteBusOperatorFailed.get(result)
+        }),
+        catchError((error) => {
+          return DeleteBusOperatorFailed.get(error)
+        }
+        )
+      )
+    }))
+
+const deleteTripEpic$ = (action$) =>
+  action$.pipe(
+    ofType(DeleteBusOperator.type),
+    exhaustMap(action => {
+      return request({
+        method: 'POST',
+        url: 'deleteTrip',
+        param: action.payload
+      }).pipe(
+        map((result) => {
+          if (result.status === 200) {
+            const { accountType } = store.getState().Dashboard
+            store.dispatch(GetTripList.get(accountType !== 'admin' ? { busOperatorId: accountType } : {}))
+            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.TRIP_LIST }))
+            return DeleteBusOperatorSuccess.get(result.result)
+          }
+          return DeleteBusOperatorFailed.get(result)
+        }),
+        catchError((error) => {
+          return DeleteBusOperatorFailed.get(error)
+        }
+        )
+      )
+    }))
+
+export const dashboardEpics = combineEpics(deleteBusOperatorEpic$, deleteTripEpic$, addBusOperatorEpic$, getDetailPromotionEpic$, activatePromotionEpic$, deletePromotionEpic$, getCityDataEpic$, getWardDataEpic$, getDistrictDataEpic$, getBusOperatorEpic$, getTripListEpic$, getOrderListEpic$, getCustomerListEpic$, getBusOperatorDetailEpic$, getOrderDetailEpic$, editOrderDetailEpic$, getMapSeatEpic$, getStatisticEpic$, getStatisticAmountEpic$, getPromotionEpic$, createNewPromotionEpic$)

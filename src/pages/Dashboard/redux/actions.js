@@ -78,3 +78,19 @@ export const DeletePromotionFailed = defineAction('DELETE_PROMOTION_FAILED')
 export const ActivatePromotion = defineAction('ACTIVATE_PROMOTION_REQUEST')
 export const ActivatePromotionSuccess = defineAction('ACTIVATE_PROMOTION_SUCCESS')
 export const ActivatePromotionFailed = defineAction('ACTIVATE_PROMOTION_FAILED')
+
+export const GetDetailPromotion = defineAction('GET_DETAIL_PROMOTION_REQUEST')
+export const GetDetailPromotionSuccess = defineAction('GET_DETAIL_PROMOTION_SUCCESS')
+export const GetDetailPromotionFailed = defineAction('GET_DETAIL_PROMOTION_FAILED')
+
+export const AddBusOperator = defineAction('ADD_BUS_OPERATOR_REQUEST')
+export const AddBusOperatorSuccess = defineAction('ADD_BUS_OPERATOR_SUCCESS')
+export const AddBusOperatorFailed = defineAction('ADD_BUS_OPERATOR_FAILED')
+
+export const DeleteBusOperator = defineAction('DELETE_BUS_OPERATOR_REQUEST')
+export const DeleteBusOperatorSuccess = defineAction('DELETE_BUS_OPERATOR_SUCCESS')
+export const DeleteBusOperatorFailed = defineAction('DELETE_BUS_OPERATOR_FAILED')
+
+export const DeleteTrip = defineAction('DELETE_TRIP_REQUEST')
+export const DeleteTripSuccess = defineAction('DELETE_TRIP_SUCCESS')
+export const DeleteTripFailed = defineAction('DELETE_TRIP_FAILED')

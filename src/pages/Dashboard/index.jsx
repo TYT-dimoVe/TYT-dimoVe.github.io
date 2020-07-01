@@ -1,12 +1,13 @@
 import {
-  DesktopOutlined,
+  ContactsOutlined,
+  LineChartOutlined,
   LoadingOutlined,
-  PieChartOutlined,
 } from "@ant-design/icons";
 import { Avatar, Button, Menu, Spin } from "antd";
 import firebase from "firebase";
 import React, { useEffect } from "react";
-import { FiFileText, FiUsers, FiGift } from "react-icons/fi";
+import { FaBus } from "react-icons/fa";
+import { FiFileText, FiGift, FiUsers } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { COLOR } from "ultis/functions";
@@ -14,6 +15,7 @@ import BusOperator from "./component/busOperatorTable";
 import CustomerList from "./component/customerList";
 import Home from "./component/homePage";
 import OrderList from "./component/orderListTable";
+import PromotionList from "./component/promotionList";
 import TripList from "./component/tripTable";
 import { PAGE } from "./constant";
 import "./dashboard.css";
@@ -23,7 +25,6 @@ import {
   ResetDashboard,
   SetCurrentPage,
 } from "./redux/actions";
-import PromotionList from "./component/promotionList";
 
 const loadingIcon = (
   <LoadingOutlined style={{ fontSize: 30, color: COLOR.primary }} spin />
@@ -133,7 +134,7 @@ function Dashboard() {
           <Menu.Item
             style={{ color: "white" }}
             key={PAGE.HOME}
-            icon={<PieChartOutlined />}
+            icon={<LineChartOutlined style={{ fontSize: 16 }} />}
           >
             Trang chủ
           </Menu.Item>
@@ -141,7 +142,7 @@ function Dashboard() {
             <Menu.Item
               style={{ color: "white" }}
               key={PAGE.BUS_OPERATOR}
-              icon={<PieChartOutlined />}
+              icon={<ContactsOutlined style={{ fontSize: 16 }} />}
             >
               Nhà xe
             </Menu.Item>
@@ -149,7 +150,7 @@ function Dashboard() {
           <Menu.Item
             style={{ color: "white" }}
             key={PAGE.TRIP_LIST}
-            icon={<DesktopOutlined />}
+            icon={<FaBus size={14} style={{ marginRight: 8 }} />}
           >
             Chuyến xe
           </Menu.Item>

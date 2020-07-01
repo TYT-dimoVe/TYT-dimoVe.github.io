@@ -1,13 +1,16 @@
-import { Input, Modal } from "antd";
+import { Input, Modal, Button } from "antd";
 import firebase from "firebase";
 import { Form, Formik } from "formik";
 import React from "react";
 import * as yup from "yup";
 import "./login.css";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import { COLOR } from "ultis/functions";
 
 function Login() {
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
   const validationSchema = yup.object().shape({
     email: yup
       .string()
@@ -23,11 +26,16 @@ function Login() {
   });
 
   const handleLogin = (values) => {
+    setLoading(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(values.email, values.password)
-      .then(() => history.push("/"))
+      .then(() => {
+        setLoading(false);
+        history.push("/");
+      })
       .catch((error) => {
+        setLoading(false);
         if (error.code === "auth/user-not-found") {
           Modal.error({
             title: "Không tìm thấy",
@@ -40,6 +48,12 @@ function Login() {
           });
         }
       });
+  };
+
+  const handleKeyPress = (isValid, event, values) => {
+    if (isValid && event.key === "Enter") {
+      handleLogin(values);
+    }
   };
 
   return (
@@ -72,6 +86,7 @@ function Login() {
                   onTouchStart={() => setFieldTouched("email")}
                   onBlur={handleBlur("email")}
                   placeholder="Email"
+                  onKeyPress={(event) => handleKeyPress(isValid, event, values)}
                 />
                 {errors.email && <span id="errorStyle">{errors.email}</span>}
                 <Input
@@ -82,19 +97,21 @@ function Login() {
                   value={values.password}
                   onBlur={handleBlur("password")}
                   placeholder="Mật khẩu"
+                  onKeyPress={(event) => handleKeyPress(isValid, event, values)}
                 />
                 {errors.password && (
                   <span id="errorStyle">{errors.password}</span>
                 )}
-                <button
+                <Button
                   id="loginBtn"
-                  type="submit"
                   disabled={!isValid}
+                  style={{ backgroundColor: isValid ? COLOR.primary : "gray" }}
                   onClick={handleSubmit}
                   size={"large"}
+                  loading={loading}
                 >
                   Đăng nhập
-                </button>
+                </Button>
               </Form>
             );
           }}

@@ -2,7 +2,7 @@ import {
   DeleteOutlined, EditOutlined,
   LoadingOutlined
 } from "@ant-design/icons";
-import { Space, Spin, Table } from "antd";
+import { Modal, Space, Spin, Table } from "antd";
 import "antd/dist/antd.css";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLOR } from "ultis/functions";
 import { PAGE } from "../constant";
 import "../dashboard.css";
-import { GetMapSeat, GetTripList, SetCurrentPage } from "../redux/actions";
+import { DeleteTrip, GetMapSeat, GetTripList, SetCurrentPage } from "../redux/actions";
 import { getColumnSearchProps } from "./searchInput";
 import TripDateDetail from "./tripDateDetail";
 
@@ -48,6 +48,22 @@ function TripList() {
     getTripList();
     dispatch(SetCurrentPage.get({ currentPage: PAGE.TRIP_LIST }))
   };
+
+  const handleDelete = (record) => {
+    Modal.confirm({
+      title: 'Xác nhận',
+      icon: <DeleteOutlined style={{ color: COLOR.primary }} />,
+      content: 'Bạn xác nhận xóa chuyến này?',
+      okText: 'Đồng ý',
+      cancelText: 'Hủy bỏ',
+      centered: true,
+      okButtonProps: { style: { backgroundColor: COLOR.primary } },
+      onOk: () => {
+        dispatch(DeleteTrip.get({ tripId: record.tripId }))
+        Modal.destroyAll()
+      }
+    });
+  }
 
   const tripsColumns = [
     {
@@ -128,7 +144,7 @@ function TripList() {
             />
             <DeleteOutlined
               style={{ fontSize: 20, color: "#FF0000" }}
-              onClick={() => { }}
+              onClick={() => handleDelete(record)}
             />
           </Space>
         );

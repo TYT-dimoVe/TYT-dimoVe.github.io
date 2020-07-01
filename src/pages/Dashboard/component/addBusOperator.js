@@ -1,14 +1,15 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Input, Select, Spin, Upload, message } from "antd";
+import { Button, Input, message, Select, Spin, Upload } from "antd";
 import "antd/dist/antd.css";
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { COLOR } from "ultis/functions";
+import { COLOR, MAP_API_KEY } from "ultis/functions";
 import * as yup from "yup";
 import { PAGE } from "../constant";
 import "../dashboard.css";
-import { SetCurrentPage, GetCityData, GetDistrictData, GetWardData } from "../redux/actions";
+import { GetDistrictData, GetWardData, SetCurrentPage } from "../redux/actions";
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -27,7 +28,7 @@ function beforeUpload(file) {
 }
 
 const firstError = {
-  operatorName: "* Vui lòng nhập tên nhà xe", phoneNumber: "* Vui lòng nhập số điện thoại", email: "* Vui lòng nhập email", contact: "* Vui lòng nhập người liên hệ"
+  address: '* Vui lòng nhập địa chỉ', operatorName: "* Vui lòng nhập tên nhà xe", phoneNumber: "* Vui lòng nhập số điện thoại", email: "* Vui lòng nhập email", contact: "* Vui lòng nhập người liên hệ"
 }
 
 const loadingIcon = (
@@ -77,6 +78,10 @@ function AddBusOperatorPage(props) {
           message: 'Tên người liên hệ không hợp lệ',
         },
       ),
+    address: yup
+      .string()
+      .required('* Vui lòng nhập địa chỉ'),
+    ward: yup.string().required('* Vui lòng nhập địa chỉ')
   });
 
   const onChangeCity = (value) => {
@@ -92,12 +97,42 @@ function AddBusOperatorPage(props) {
     dispatch(GetWardData.get({ cityCode: cityCode.code, districtCode: districtData[value].code }))
   }
 
-  const onChangeWard = (value) => {
+  const onChangeWard = (value, handleChange) => {
     setWardCode(wardData[value])
+    handleChange('ward')(wardData[value].pathWithType)
   }
 
   const handleAdd = (values) => {
-    console.log(values)
+    axios.request({
+      url: `https://api.tomtom.com/search/2/geocode/${values.address}, ${values.ward}.json`,
+      timeout: 10000,
+      params: {
+        countrySet: 'VN',
+        lat: 10,
+        lon: 106,
+        language: 'vi-VN',
+        key: MAP_API_KEY
+      },
+      method: 'GET',
+    }).then(res => {
+      const { results } = res.data
+      let data = {
+        avatar: values.avatar,
+        email: values.email,
+        contact: values.contact,
+        address: `${values.address}, ${values.ward}`,
+        name: values.operatorName,
+        phoneNumber: values.phoneNumber
+      }
+      if (results && results.length > 0) {
+        data = {
+          ...data,
+          lat: results[0].position.lat,
+          long: results[0].position.lon
+        }
+      }
+      console.log(data)
+    })
   }
 
   if (isLoading) {
@@ -132,7 +167,7 @@ function AddBusOperatorPage(props) {
     <div className="chooseContainer">
       <span className="titleTopic">Thêm nhà xe</span>
       <Formik
-        initialValues={{ avatar: null, operatorName: "", address: "", phoneNumber: "", email: "", password: "", contact: "" }}
+        initialValues={{ avatar: null, operatorName: "", address: "", ward: '', phoneNumber: "", email: "", contact: "" }}
         initialErrors={firstError}
         validationSchema={validationSchema}
         onSubmit={(values) => handleAdd(values)}
@@ -198,7 +233,6 @@ function AddBusOperatorPage(props) {
                       placeholder='Chọn quận/huyện'
                       value={districtCode ? districtCode.nameWithType : undefined}
                       className='dropdownNormal'
-                      // style={{ width: 150, minWidth: 120 }}
                       allowClear={false}
                       disabled={!(districtData && districtData.length > 0)}
                       onChange={onChangeDistrict}
@@ -209,10 +243,9 @@ function AddBusOperatorPage(props) {
                       placeholder='Chọn phường/xã'
                       value={wardCode ? wardCode.nameWithType : undefined}
                       className='dropdownNormal'
-                      // style={{ width: 150, minWidth: 120 }}
                       allowClear={false}
                       disabled={!(wardData && wardData.length > 0)}
-                      onChange={onChangeWard}
+                      onChange={value => onChangeWard(value, handleChange)}
                     >
                       {wardData && wardData.map((item, index) => <Option value={index}>{item.nameWithType}</Option>)}
                     </Select>
@@ -227,7 +260,7 @@ function AddBusOperatorPage(props) {
                   />
                 </div>
               </div>
-              {errors.address && <span className="errorAdd">{errors.address}</span>}
+              {(errors.address || errors.ward) && <span className="errorAdd">* Vui lòng nhập địa chỉ</span>}
               <div className='rowAdd'>
                 <span className='addTitle'>Số điện thoại:</span>
                 <Input

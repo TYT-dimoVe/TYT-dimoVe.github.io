@@ -1,5 +1,5 @@
-import { LoadingOutlined } from "@ant-design/icons";
-import { Button, DatePicker, Input, message, Spin, InputNumber } from "antd";
+import { LoadingOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { Button, DatePicker, Input, Switch, message, Spin, InputNumber } from "antd";
 import "antd/dist/antd.css";
 import { Form, Formik } from "formik";
 import moment from 'moment';
@@ -14,7 +14,7 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 
 const firstError = {
-  promotionCode: "* Vui lòng nhập mã khuyến mãi", promotionName: "* Vui lòng nhập tên khuyến mãi", from: "* Vui lòng nhập thời gian diễn ra chương trình", quantity: "* Vui lòng nhập số lượt sử dụng khuyến mãi", promotionPercent: "* Vui lòng nhập phần trăm giảm giá"
+  promotionCode: "* Vui lòng nhập mã khuyến mãi", promotionName: "* Vui lòng nhập tên khuyến mãi", quantity: "* Vui lòng nhập số lượt sử dụng khuyến mãi", promotionPercent: "* Vui lòng nhập phần trăm giảm giá"
 }
 
 const loadingIcon = (
@@ -31,9 +31,9 @@ function AddPromotionPage(props) {
       .trim()
       .required('* Vui lòng nhập mã khuyến mãi')
       .matches(
-        /[^A-Za-z0-9]+]/,
+        /^[A-Z0-9]+$/,
         {
-          message: 'Mã khuyến mãi không hợp lệ',
+          message: 'Mã khuyến mãi chỉ được chứa kí tự hoa và chữ số',
         },
       ),
     promotionName: yup
@@ -83,7 +83,7 @@ function AddPromotionPage(props) {
     <div className="chooseContainer">
       <span className="titleTopic">Thêm khuyến mãi</span>
       <Formik
-        initialValues={{ promotionCode: '', promotionName: '', quantity: 0, from: moment(new Date()).format('DD/MM/YYYY'), to: moment(new Date()).add(1, 'days').format('DD/MM/YYYY'), description: '', promotionPercent: 1 }}
+        initialValues={{ promotionCode: '', promotionName: '', quantity: 0, from: moment(new Date()).format('DD/MM/YYYY'), to: moment(new Date()).add(1, 'days').format('DD/MM/YYYY'), description: '', promotionPercent: 1, active: true }}
         initialErrors={firstError}
         validationSchema={validationSchema}
         onSubmit={(values) => handleAdd(values)}
@@ -97,6 +97,7 @@ function AddPromotionPage(props) {
           errors,
           touched,
           setFieldTouched,
+          setFieldValue
         }) => {
           return (
             <Form>
@@ -127,6 +128,21 @@ function AddPromotionPage(props) {
                 />
               </div>
               {errors.promotionName && <span className="errorAdd">{errors.promotionName}</span>}
+
+              <div className='rowAdd'>
+                <span className='addTitle'>Thời gian khuyến mãi:</span>
+                <RangePicker style={{ width: 250 }} disabledDate={d => !d || d.isBefore(moment(new Date()))} onChange={(value, dateStr) => handleChangeRange(dateStr, handleChange)} format='DD/MM/YYYY' allowClear={false} value={[moment(values.from, 'DD/MM/YYYY'), moment(values.to, 'DD/MM/YYYY')]} />
+                <span className='addTitle' style={{ width: 'auto', marginLeft: 24, marginRight: 24 }}>Hoạt động:</span>
+                <Switch
+                  checkedChildren={<CheckOutlined />}
+                  unCheckedChildren={<CloseOutlined />}
+                  checked={values.active || false}
+                  onChange={(act, e) => {
+                    setFieldValue('active', act)
+                  }}
+                />
+              </div>
+              {errors.from && <span className="errorAdd">{errors.from}</span>}
 
               <div className='rowAdd'>
                 <span className='addTitle'>Phần trăm giảm giá:</span>
@@ -168,13 +184,8 @@ function AddPromotionPage(props) {
                   rows={4}
                 />
               </div>
-              {/* {errors.description && <span className="errorAdd">{errors.description}</span>} */}
 
-              <div className='rowAdd'>
-                <span className='addTitle'>Thời gian khuyến mãi:</span>
-                <RangePicker style={{ marginBottom: 16, width: 300 }} disabledDate={d => !d || d.isBefore(moment(new Date()))} onChange={(value, dateStr) => handleChangeRange(dateStr, handleChange)} format='DD/MM/YYYY' allowClear={false} value={[moment(values.from, 'DD/MM/YYYY'), moment(values.to, 'DD/MM/YYYY')]} />
-              </div>
-              {errors.from && <span className="errorAdd">{errors.from}</span>}
+
 
               <div style={{ display: "flex" }}>
                 <Button

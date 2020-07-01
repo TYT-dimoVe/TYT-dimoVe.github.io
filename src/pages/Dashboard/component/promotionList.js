@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined, DeleteOutlined, EyeOutlined, LoadingOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Space, Spin, Switch, Table } from "antd";
+import { Button, Modal, Space, Spin, Switch, Table } from "antd";
 import "antd/dist/antd.css";
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from "react";
@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLOR } from "ultis/functions";
 import { PAGE } from "../constant";
 import "../dashboard.css";
-import { DeletePromotion, GetPromotion, SetCurrentPage, ActivatePromotion } from "../redux/actions";
+import { ActivatePromotion, DeletePromotion, GetDetailPromotion, GetPromotion, SetCurrentPage } from "../redux/actions";
 import AddPromotionPage from "./addPromotion";
+import PromotionDetailPage from "./promotionDetail";
 import { getColumnSearchProps } from "./searchInput";
 
 const loadingIcon = (
@@ -33,7 +34,28 @@ function PromotionList() {
   }
 
   const handleEdit = (value, record) => {
+    dispatch(GetDetailPromotion.get({ promotionCode: record.promotionCode }))
+  }
 
+  const handleReset = () => {
+    dispatch(GetPromotion.get());
+    dispatch(SetCurrentPage.get({ currentPage: PAGE.PROMOTIONS }))
+  };
+
+  const handleDelete = (record) => {
+    Modal.confirm({
+      title: 'Xác nhận',
+      icon: <DeleteOutlined style={{ color: COLOR.primary }} />,
+      content: 'Bạn xác nhận xóa mã khuyến mãi này?',
+      okText: 'Đồng ý',
+      cancelText: 'Hủy bỏ',
+      centered: true,
+      okButtonProps: { style: { backgroundColor: COLOR.primary } },
+      onOk: () => {
+        dispatch(DeletePromotion.get({ promotionCode: record.promotionCode }))
+        Modal.destroyAll()
+      }
+    });
   }
 
   const promotionColumns = [
@@ -117,7 +139,7 @@ function PromotionList() {
             />
             <DeleteOutlined
               style={{ fontSize: 20, color: "#FF0000" }}
-              onClick={() => { dispatch(DeletePromotion.get({ promotionCode: value })) }}
+              onClick={() => handleDelete(record)}
             />
           </Space>
         );
@@ -137,6 +159,12 @@ function PromotionList() {
     return (
       <AddPromotionPage />
     );
+  }
+
+  if (detailPage === PAGE.DETAIL_PROMOTION) {
+    return (
+      <PromotionDetailPage handleReset={handleReset} />
+    )
   }
 
   return (

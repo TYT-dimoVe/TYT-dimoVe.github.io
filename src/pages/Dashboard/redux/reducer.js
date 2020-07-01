@@ -1,5 +1,5 @@
 import { PAGE } from 'pages/Dashboard/constant'
-import { GetAccountType, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCityData, GetCityDataFailed, GetCityDataSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetDistrictSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetStatistic, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, GetWardDataSuccess, ResetDashboard, SetCurrentPage, SetTypeAccount, GetPromotion, GetPromotionSuccess, GetPromotionFailed } from './actions'
+import { GetAccountType, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCityData, GetCityDataFailed, GetCityDataSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetDistrictSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetStatistic, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, GetWardDataSuccess, ResetDashboard, SetCurrentPage, SetTypeAccount, GetPromotion, GetPromotionSuccess, GetPromotionFailed, GetDetailPromotion, GetDetailPromotionSuccess, GetDetailPromotionFailed } from './actions'
 const initialState = {
   busOperator: [],
   tripList: [],
@@ -18,7 +18,8 @@ const initialState = {
   cityData: [],
   districtData: [],
   wardData: [],
-  promotions: []
+  promotions: [],
+  promotionDetail: {}
 }
 
 export function dashboardReducer(state = initialState, action) {
@@ -98,6 +99,12 @@ export function dashboardReducer(state = initialState, action) {
     case GetPromotionSuccess.type:
       return { ...state, promotions: action.payload, isLoading: false }
     case GetPromotionFailed.type:
+      return { ...state, isLoading: false }
+    case GetDetailPromotion.type:
+      return { ...state, isLoading: true }
+    case GetDetailPromotionSuccess.type:
+      return { ...state, promotionDetail: action.payload, isLoading: false }
+    case GetDetailPromotionFailed.type:
       return { ...state, isLoading: false }
     default:
       return state
