@@ -68,6 +68,8 @@ import {
   DeleteBusOperatorSuccess,
   DeleteBusOperatorFailed,
   GetCitiesTrip,
+  GetCitiesTripSuccess,
+  GetCitiesTripFailed,
 } from "./actions";
 
 const getBusOperatorEpic$ = (action$) =>
@@ -579,13 +581,13 @@ const getCitiesTripEpic$ = (action$) =>
       }).pipe(
         map((result) => {
           if (result.status === 200) {
-            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.ADD_TRIP }));
-            return DeleteBusOperatorSuccess.get(result.result);
+            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.TRIP_LIST, detailPage: PAGE.ADD_TRIP }));
+            return GetCitiesTripSuccess.get(result.result);
           }
-          return DeleteBusOperatorFailed.get(result);
+          return GetCitiesTripFailed.get(result);
         }),
         catchError((error) => {
-          return DeleteBusOperatorFailed.get(error);
+          return GetCitiesTripFailed.get(error);
         })
       );
     })

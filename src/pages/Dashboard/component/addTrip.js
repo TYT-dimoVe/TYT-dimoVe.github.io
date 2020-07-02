@@ -33,11 +33,11 @@ function beforeUpload(file) {
 }
 
 const firstError = {
-  address: "* Vui lòng nhập địa chỉ",
-  operatorName: "* Vui lòng nhập tên nhà xe",
-  phoneNumber: "* Vui lòng nhập số điện thoại",
-  email: "* Vui lòng nhập email",
-  contact: "* Vui lòng nhập người liên hệ",
+  // address: "* Vui lòng nhập địa chỉ",
+  // operatorName: "* Vui lòng nhập tên nhà xe",
+  // phoneNumber: "* Vui lòng nhập số điện thoại",
+  // email: "* Vui lòng nhập email",
+  // contact: "* Vui lòng nhập người liên hệ",
 };
 
 const loadingIcon = (
@@ -58,38 +58,37 @@ function AddTripPage(props) {
   const [isLoadingImage, setLoadingImage] = useState(false);
 
   const validationSchema = yup.object().shape({
-    email: yup
-      .string()
-      .label("Email")
-      .email("Email hiện tại không hợp lệ")
-      .required("* Vui lòng nhập email"),
-    phoneNumber: yup
-      .string()
-      .required("* Vui lòng nhập số điện thoại")
-      .matches(/((09|03|07|08|05)+([0-9]{8})\b)/, {
-        message: "Số điện thoại không hợp lệ",
-      }),
-    operatorName: yup
-      .string()
-      .trim()
-      .required("* Vui lòng nhập tên nhà xe")
-      .matches(
-        /[^a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]/u,
-        {
-          message: "Tên nhà xe không hợp lệ",
-        }
-      ),
-    contact: yup
-      .string()
-      .trim()
-      .required("* Vui lòng nhập người liên hệ")
-      .matches(
-        /[^a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]/u,
-        {
-          message: "Tên người liên hệ không hợp lệ",
-        }
-      ),
-    address: yup.string().required("* Vui lòng nhập địa chỉ"),
+    // email: yup
+    //   .string()
+    //   .label("Email")
+    //   .email("Email hiện tại không hợp lệ")
+    //   .required("* Vui lòng nhập email"),
+    // phoneNumber: yup
+    //   .string()
+    //   .required("* Vui lòng nhập số điện thoại")
+    //   .matches(/((09|03|07|08|05)+([0-9]{8})\b)/, {
+    //     message: "Số điện thoại không hợp lệ",
+    //   }),
+    // operatorName: yup
+    //   .string()
+    //   .trim()
+    //   .required("* Vui lòng nhập tên nhà xe")
+    //   .matches(
+    //     /[^a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]/u,
+    //     {
+    //       message: "Tên nhà xe không hợp lệ",
+    //     }
+    //   ),
+    // contact: yup
+    //   .string()
+    //   .trim()
+    //   .required("* Vui lòng nhập người liên hệ")
+    //   .matches(
+    //     /[^a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]/u,
+    //     {
+    //       message: "Tên người liên hệ không hợp lệ",
+    //     }
+    //   ),
     price: yup
       .number()
       .min(50000, "Số tiền phải lớn hơn 50.000đ")
@@ -130,45 +129,45 @@ function AddTripPage(props) {
   };
 
   const handleAdd = (values) => {
-    axios
-      .request({
-        url: `https://api.tomtom.com/search/2/geocode/${values.address}, ${values.ward}.json`,
-        timeout: 10000,
-        params: {
-          countrySet: "VN",
-          lat: 10,
-          lon: 106,
-          language: "vi-VN",
-          key: MAP_API_KEY,
-        },
-        method: "GET",
-      })
-      .then((res) => {
-        const { results } = res.data;
-        let data = {
-          avatar: values.avatar,
-          email: values.email,
-          contact: values.contact,
-          address: `${values.address}, ${values.ward}`,
-          name: values.operatorName,
-          phoneNumber: values.phoneNumber,
-        };
-        if (results && results.length > 0) {
-          data = {
-            ...data,
-            lat: results[0].position.lat,
-            long: results[0].position.lon,
-          };
-        }
-        dispatch(AddBusOperator.get(data));
-      })
-      .catch((error) =>
-        Modal.info({
-          title: "Lỗi",
-          content: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
-          onOk() {},
-        })
-      );
+    // axios
+    //   .request({
+    //     url: `https://api.tomtom.com/search/2/geocode/${values.address}, ${values.ward}.json`,
+    //     timeout: 10000,
+    //     params: {
+    //       countrySet: "VN",
+    //       lat: 10,
+    //       lon: 106,
+    //       language: "vi-VN",
+    //       key: MAP_API_KEY,
+    //     },
+    //     method: "GET",
+    //   })
+    //   .then((res) => {
+    //     const { results } = res.data;
+    //     let data = {
+    //       avatar: values.avatar,
+    //       email: values.email,
+    //       contact: values.contact,
+    //       address: `${values.address}, ${values.ward}`,
+    //       name: values.operatorName,
+    //       phoneNumber: values.phoneNumber,
+    //     };
+    //     if (results && results.length > 0) {
+    //       data = {
+    //         ...data,
+    //         lat: results[0].position.lat,
+    //         long: results[0].position.lon,
+    //       };
+    //     }
+    //     dispatch(AddBusOperator.get(data));
+    //   })
+    //   .catch((error) =>
+    //     Modal.info({
+    //       title: "Lỗi",
+    //       content: "Đã có lỗi xảy ra. Vui lòng thử lại sau.",
+    //       onOk() {},
+    //     })
+    //   );
   };
 
   if (isLoading) {
@@ -197,8 +196,8 @@ function AddTripPage(props) {
       {isLoadingImage ? (
         <LoadingOutlined style={{ color: COLOR.primary }} />
       ) : (
-        <PlusOutlined />
-      )}
+          <PlusOutlined />
+        )}
       <div
         className="ant-upload-text"
         style={{ fontFamily: "Source Sans Pro" }}
@@ -259,8 +258,8 @@ function AddTripPage(props) {
                         style={{ width: "100%" }}
                       />
                     ) : (
-                      uploadButton
-                    )}
+                        uploadButton
+                      )}
                   </Upload>
                 </div>
               </div>
@@ -269,7 +268,7 @@ function AddTripPage(props) {
                 <Select
                   placeholder="Chọn thành phố"
                   value={values.from?.cityTitle}
-                  className="dropdownCity"
+                  className="dropdownNormal"
                   allowClear={false}
                   bordered
                   onChange={onChangeCityFrom}
@@ -325,7 +324,7 @@ function AddTripPage(props) {
               <div className="rowAdd">
                 <span className="addTitle">Loại xe:</span>
                 <Select
-                  placeholder="Chọn thành phố"
+                  placeholder="Chọn loại xe"
                   value={values.busTypeTitle}
                   className="dropdownNormal"
                   allowClear={false}
