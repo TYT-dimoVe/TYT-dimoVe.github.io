@@ -94,3 +94,11 @@ export const DeleteBusOperatorFailed = defineAction('DELETE_BUS_OPERATOR_FAILED'
 export const DeleteTrip = defineAction('DELETE_TRIP_REQUEST')
 export const DeleteTripSuccess = defineAction('DELETE_TRIP_SUCCESS')
 export const DeleteTripFailed = defineAction('DELETE_TRIP_FAILED')
+
+export const GetCitiesTrip = defineAction('GET_CITIES_REQUEST')
+export const GetCitiesTripSuccess = defineAction('GET_CITIES_SUCCESS')
+export const GetCitiesTripFailed = defineAction('GET_CITIES_FAILED')
+
+export const GetBusType = defineAction('GET_BUS_TYPE_REQUEST')
+export const GetBusTypeSuccess = defineAction('GET_BUS_TYPE_SUCCESS')
+export const GetBusTypeFailed = defineAction('GET_BUS_TYPE_FAILED')

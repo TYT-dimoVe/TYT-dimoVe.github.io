@@ -1,5 +1,53 @@
-import { PAGE } from 'pages/Dashboard/constant'
-import { GetAccountType, GetBusOperator, GetBusOperatorDetail, GetBusOperatorDetailFailed, GetBusOperatorDetailSuccess, GetBusOperatorFailed, GetBusOperatorSuccess, GetCityData, GetCityDataFailed, GetCityDataSuccess, GetCustomerList, GetCustomerListFailed, GetCustomerListSuccess, GetDistrictSuccess, GetMapSeat, GetMapSeatFailed, GetMapSeatSuccess, GetOrderDetail, GetOrderDetailFailed, GetOrderDetailSuccess, GetOrderList, GetOrderListFailed, GetOrderListSuccess, GetStatistic, GetStatisticAmountFailed, GetStatisticAmountSuccess, GetStatisticFailed, GetStatisticSuccess, GetTripList, GetTripListFailed, GetTripListSuccess, GetWardDataSuccess, ResetDashboard, SetCurrentPage, SetTypeAccount, GetPromotion, GetPromotionSuccess, GetPromotionFailed, GetDetailPromotion, GetDetailPromotionSuccess, GetDetailPromotionFailed } from './actions'
+import { PAGE } from "pages/Dashboard/constant";
+import {
+  GetAccountType,
+  GetBusOperator,
+  GetBusOperatorDetail,
+  GetBusOperatorDetailFailed,
+  GetBusOperatorDetailSuccess,
+  GetBusOperatorFailed,
+  GetBusOperatorSuccess,
+  GetCityData,
+  GetCityDataFailed,
+  GetCityDataSuccess,
+  GetCustomerList,
+  GetCustomerListFailed,
+  GetCustomerListSuccess,
+  GetDistrictSuccess,
+  GetMapSeat,
+  GetMapSeatFailed,
+  GetMapSeatSuccess,
+  GetOrderDetail,
+  GetOrderDetailFailed,
+  GetOrderDetailSuccess,
+  GetOrderList,
+  GetOrderListFailed,
+  GetOrderListSuccess,
+  GetStatistic,
+  GetStatisticAmountFailed,
+  GetStatisticAmountSuccess,
+  GetStatisticFailed,
+  GetStatisticSuccess,
+  GetTripList,
+  GetTripListFailed,
+  GetTripListSuccess,
+  GetWardDataSuccess,
+  ResetDashboard,
+  SetCurrentPage,
+  SetTypeAccount,
+  GetPromotion,
+  GetPromotionSuccess,
+  GetPromotionFailed,
+  GetDetailPromotion,
+  GetDetailPromotionSuccess,
+  GetDetailPromotionFailed,
+  GetCitiesTrip,
+  GetCitiesTripSuccess,
+  GetCitiesTripFailed,
+  GetBusType,
+  GetBusTypeSuccess,
+  GetBusTypeFailed,
+} from "./actions";
 const initialState = {
   busOperator: [],
   tripList: [],
@@ -19,94 +67,122 @@ const initialState = {
   districtData: [],
   wardData: [],
   promotions: [],
-  promotionDetail: {}
-}
+  promotionDetail: {},
+  citiesTrip: [],
+  busType: [],
+};
 
 export function dashboardReducer(state = initialState, action) {
   switch (action.type) {
     case GetBusOperator.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetBusOperatorSuccess.type:
-      return { ...state, busOperator: action.payload.data, isLoading: false }
+      return { ...state, busOperator: action.payload.data, isLoading: false };
     case GetBusOperatorFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case GetTripList.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetTripListSuccess.type:
-      return { ...state, tripList: action.payload, isLoading: false }
+      return { ...state, tripList: action.payload, isLoading: false };
     case GetTripListFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case GetOrderList.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetOrderListSuccess.type:
-      return { ...state, orderList: action.payload, isLoading: false }
+      return { ...state, orderList: action.payload, isLoading: false };
     case GetOrderListFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case SetTypeAccount.type:
-      return { ...state, accountType: action.payload }
+      return { ...state, accountType: action.payload };
     case GetCustomerList.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetCustomerListSuccess.type:
-      return { ...state, customerList: action.payload, isLoading: false }
+      return { ...state, customerList: action.payload, isLoading: false };
     case GetCustomerListFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case GetBusOperatorDetail.type:
-      return { ...state, isLoadingDashboard: true }
+      return { ...state, isLoadingDashboard: true };
     case GetBusOperatorDetailSuccess.type:
-      return { ...state, accountDetail: action.payload, isLoadingDashboard: false }
+      return {
+        ...state,
+        accountDetail: action.payload,
+        isLoadingDashboard: false,
+      };
     case GetBusOperatorDetailFailed.type:
-      return { ...state, isLoadingDashboard: false }
+      return { ...state, isLoadingDashboard: false };
     case GetAccountType.type:
-      return { ...state, isLoadingDashboard: true }
+      return { ...state, isLoadingDashboard: true };
     case GetOrderDetail.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetOrderDetailSuccess.type:
-      return { ...state, orderDetail: action.payload, isLoading: false }
+      return { ...state, orderDetail: action.payload, isLoading: false };
     case GetOrderDetailFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case GetMapSeat.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetMapSeatSuccess.type:
-      return { ...state, tripDetail: action.payload, isLoading: false }
+      return { ...state, tripDetail: action.payload, isLoading: false };
     case GetMapSeatFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case SetCurrentPage.type:
-      return { ...state, currentPage: action.payload.currentPage, detailPage: action.payload.detailPage }
+      return {
+        ...state,
+        currentPage: action.payload.currentPage,
+        detailPage: action.payload.detailPage,
+      };
     case ResetDashboard.type:
-      return { ...initialState }
+      return { ...initialState };
     case GetStatistic.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetStatisticSuccess.type:
-      return { ...state, stastic: action.payload }
+      return { ...state, stastic: action.payload };
     case GetStatisticFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case GetStatisticAmountSuccess.type:
-      return { ...state, statisticData: action.payload, isLoading: false }
+      return { ...state, statisticData: action.payload, isLoading: false };
     case GetStatisticAmountFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case GetCityData.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetCityDataSuccess.type:
-      return { ...state, cityData: action.payload, districtData: [], wardData: [], isLoading: false }
+      return {
+        ...state,
+        cityData: action.payload,
+        districtData: [],
+        wardData: [],
+        isLoading: false,
+      };
     case GetCityDataFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case GetDistrictSuccess.type:
-      return { ...state, districtData: action.payload, wardData: [] }
+      return { ...state, districtData: action.payload, wardData: [] };
     case GetWardDataSuccess.type:
-      return { ...state, wardData: action.payload }
+      return { ...state, wardData: action.payload };
     case GetPromotion.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetPromotionSuccess.type:
-      return { ...state, promotions: action.payload, isLoading: false }
+      return { ...state, promotions: action.payload, isLoading: false };
     case GetPromotionFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
     case GetDetailPromotion.type:
-      return { ...state, isLoading: true }
+      return { ...state, isLoading: true };
     case GetDetailPromotionSuccess.type:
-      return { ...state, promotionDetail: action.payload, isLoading: false }
+      return { ...state, promotionDetail: action.payload, isLoading: false };
     case GetDetailPromotionFailed.type:
-      return { ...state, isLoading: false }
+      return { ...state, isLoading: false };
+    case GetCitiesTrip.type:
+      return { ...state, isLoading: true };
+    case GetCitiesTripSuccess.type:
+      return { ...state, citiesTrip: action.payload, isLoading: false };
+    case GetCitiesTripFailed.type:
+      return { ...state, isLoading: false };
+    case GetBusType.type:
+      return { ...state, isLoading: true };
+    case GetBusTypeSuccess.type:
+      return { ...state, busType: action.payload, isLoading: false };
+    case GetBusTypeFailed.type:
+      return { ...state, isLoading: false };
     default:
-      return state
+      return state;
   }
 }

@@ -1,8 +1,10 @@
 import {
-  DeleteOutlined, EditOutlined,
-  LoadingOutlined
+  DeleteOutlined,
+  EditOutlined,
+  LoadingOutlined,
+  PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Modal, Space, Spin, Table } from "antd";
+import { Modal, Space, Spin, Table, Button } from "antd";
 import "antd/dist/antd.css";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
@@ -10,9 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { COLOR } from "ultis/functions";
 import { PAGE } from "../constant";
 import "../dashboard.css";
-import { DeleteTrip, GetMapSeat, GetTripList, SetCurrentPage } from "../redux/actions";
+import {
+  DeleteTrip,
+  GetMapSeat,
+  GetTripList,
+  SetCurrentPage,
+  GetCitiesTrip,
+} from "../redux/actions";
 import { getColumnSearchProps } from "./searchInput";
 import TripDateDetail from "./tripDateDetail";
+import AddTripPage from "./addTrip";
 
 const loadingIcon = (
   <LoadingOutlined style={{ fontSize: 30, color: COLOR.primary }} spin />
@@ -40,30 +49,45 @@ function TripList() {
   }, []);
 
   const handleEdit = (value, record) => {
-    dispatch(GetMapSeat.get({ tripId: record.tripId, busType: record.busType, date: moment(new Date()).format('DD/MM/YYYY') }))
-    dispatch(SetCurrentPage.get({ currentPage: PAGE.TRIP_LIST, detailPage: PAGE.TRIP_DETAIL }))
+    dispatch(
+      GetMapSeat.get({
+        tripId: record.tripId,
+        busType: record.busType,
+        date: moment(new Date()).format("DD/MM/YYYY"),
+      })
+    );
+    dispatch(
+      SetCurrentPage.get({
+        currentPage: PAGE.TRIP_LIST,
+        detailPage: PAGE.TRIP_DETAIL,
+      })
+    );
   };
 
   const handleReset = () => {
     getTripList();
-    dispatch(SetCurrentPage.get({ currentPage: PAGE.TRIP_LIST }))
+    dispatch(SetCurrentPage.get({ currentPage: PAGE.TRIP_LIST }));
   };
 
   const handleDelete = (record) => {
     Modal.confirm({
-      title: 'Xác nhận',
+      title: "Xác nhận",
       icon: <DeleteOutlined style={{ color: COLOR.primary }} />,
-      content: 'Bạn xác nhận xóa chuyến này?',
-      okText: 'Đồng ý',
-      cancelText: 'Hủy bỏ',
+      content: "Bạn xác nhận xóa chuyến này?",
+      okText: "Đồng ý",
+      cancelText: "Hủy bỏ",
       centered: true,
       okButtonProps: { style: { backgroundColor: COLOR.primary } },
       onOk: () => {
-        dispatch(DeleteTrip.get({ tripId: record.tripId }))
-        Modal.destroyAll()
-      }
+        dispatch(DeleteTrip.get({ tripId: record.tripId }));
+        Modal.destroyAll();
+      },
     });
-  }
+  };
+
+  const onAddNewTrip = () => {
+    dispatch(GetCitiesTrip.get());
+  };
 
   const tripsColumns = [
     {
@@ -160,13 +184,24 @@ function TripList() {
     );
   }
   if (detailPage === PAGE.TRIP_DETAIL) {
-    return (
-      <TripDateDetail handleReset={handleReset} />
-    );
+    return <TripDateDetail handleReset={handleReset} />;
+  }
+  if (detailPage === PAGE.ADD_TRIP) {
+    return <AddTripPage />;
   }
   return (
     <div className="chooseContainer">
       <span className="titleTopic">Danh sách chuyến xe</span>
+      {accountType && accountType !== "admin" && (
+        <Button
+          type="primary"
+          icon={<PlusCircleOutlined />}
+          style={{ width: 200, marginBottom: 32 }}
+          onClick={() => onAddNewTrip()}
+        >
+          Thêm chuyến xe mới
+        </Button>
+      )}
       <Table columns={tripsColumns} dataSource={tripList} />
     </div>
   );
