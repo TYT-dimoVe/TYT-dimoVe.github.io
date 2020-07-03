@@ -1,12 +1,12 @@
-import { LoadingOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Spin, Table } from "antd";
+import { LoadingOutlined, PlusCircleOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button, Spin, Table, Space, Modal } from "antd";
 import "antd/dist/antd.css";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { COLOR } from "ultis/functions";
 import { PAGE } from "../constant";
 import "../dashboard.css";
-import { GetBusOperator, SetCurrentPage, GetCityData } from "../redux/actions";
+import { GetBusOperator, SetCurrentPage, GetCityData, DeleteBusOperator } from "../redux/actions";
 import AddBusOperatorPage from "./addBusOperator";
 import { getColumnSearchProps } from "./searchInput";
 
@@ -31,6 +31,22 @@ function BusOperator() {
     dispatch(GetCityData.get())
     dispatch(SetCurrentPage.get({ currentPage: PAGE.BUS_OPERATOR, detailPage: PAGE.ADD_OPERATOR }))
   }
+
+  const handleDelete = (record) => {
+    Modal.confirm({
+      title: "Xác nhận",
+      icon: <DeleteOutlined style={{ color: COLOR.primary }} />,
+      content: "Bạn xác nhận xóa nhà xe này?",
+      okText: "Đồng ý",
+      cancelText: "Hủy bỏ",
+      centered: true,
+      okButtonProps: { style: { backgroundColor: COLOR.primary } },
+      onOk: () => {
+        dispatch(DeleteBusOperator.get({ busOperatorId: record.busOperatorId }));
+        Modal.destroyAll();
+      },
+    });
+  };
 
   const busOperatorColumns = [
     {
@@ -85,6 +101,20 @@ function BusOperator() {
       title: "Liên hệ",
       dataIndex: "contact",
       sorter: (a, b) => a.email.localeCompare(b.email),
+    },
+    {
+      title: "Tác vụ",
+      key: "action",
+      render: (value, record) => {
+        return (
+          <Space>
+            <DeleteOutlined
+              style={{ fontSize: 20, color: "#FF0000" }}
+              onClick={() => handleDelete(record)}
+            />
+          </Space>
+        );
+      },
     },
   ];
 

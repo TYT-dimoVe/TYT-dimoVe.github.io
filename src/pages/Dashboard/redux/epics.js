@@ -1,19 +1,30 @@
+import { Modal } from "antd";
 import { store } from "core/store";
 import moment from "moment";
 import { combineEpics, ofType } from "redux-observable";
 import { catchError, exhaustMap, map } from "rxjs/operators";
 import { request } from "ultis/api";
+import { COLOR } from "ultis/functions";
 import { PAGE } from "../constant";
 import {
   ActivatePromotion,
   ActivatePromotionFailed,
   ActivatePromotionSuccess,
+  AddBusOperator,
+  AddBusOperatorFailed,
+  AddBusOperatorSuccess,
   CreateNewPromotion,
   CreateNewPromotionFailed,
   CreateNewPromotionSuccess,
+  DeleteBusOperator,
+  DeleteBusOperatorFailed,
+  DeleteBusOperatorSuccess,
   DeletePromotion,
   DeletePromotionFailed,
   DeletePromotionSuccess,
+  DeleteTrip,
+  DeleteTripFailed,
+  DeleteTripSuccess,
   EditOrderDetail,
   EditOrderDetailFailed,
   EditOrderDetailSuccess,
@@ -23,12 +34,18 @@ import {
   GetBusOperatorDetailSuccess,
   GetBusOperatorFailed,
   GetBusOperatorSuccess,
+  GetCitiesTrip,
+  GetCitiesTripFailed,
+  GetCitiesTripSuccess,
   GetCityData,
   GetCityDataFailed,
   GetCityDataSuccess,
   GetCustomerList,
   GetCustomerListFailed,
   GetCustomerListSuccess,
+  GetDetailPromotion,
+  GetDetailPromotionFailed,
+  GetDetailPromotionSuccess,
   GetDistrictData,
   GetDistrictFailed,
   GetDistrictSuccess,
@@ -58,18 +75,6 @@ import {
   GetWardDataSuccess,
   SetCurrentPage,
   SetTypeAccount,
-  GetDetailPromotion,
-  GetDetailPromotionSuccess,
-  GetDetailPromotionFailed,
-  AddBusOperator,
-  AddBusOperatorSuccess,
-  AddBusOperatorFailed,
-  DeleteBusOperator,
-  DeleteBusOperatorSuccess,
-  DeleteBusOperatorFailed,
-  GetCitiesTrip,
-  GetCitiesTripSuccess,
-  GetCitiesTripFailed,
 } from "./actions";
 
 const getBusOperatorEpic$ = (action$) =>
@@ -507,6 +512,13 @@ const addBusOperatorEpic$ = (action$) =>
             );
             return AddBusOperatorSuccess.get(result.result);
           }
+          Modal.error({
+            title: "Lỗi",
+            content: result.result,
+            okText: "Đồng ý",
+            centered: true,
+            okButtonProps: { style: { backgroundColor: COLOR.primary } },
+          });
           return AddBusOperatorFailed.get(result);
         }),
         catchError((error) => {
@@ -533,6 +545,13 @@ const deleteBusOperatorEpic$ = (action$) =>
             );
             return DeleteBusOperatorSuccess.get(result.result);
           }
+          Modal.error({
+            title: "Lỗi",
+            content: result.result,
+            okText: "Đồng ý",
+            centered: true,
+            okButtonProps: { style: { backgroundColor: COLOR.primary } },
+          });
           return DeleteBusOperatorFailed.get(result);
         }),
         catchError((error) => {
@@ -544,7 +563,7 @@ const deleteBusOperatorEpic$ = (action$) =>
 
 const deleteTripEpic$ = (action$) =>
   action$.pipe(
-    ofType(DeleteBusOperator.type),
+    ofType(DeleteTrip.type),
     exhaustMap((action) => {
       return request({
         method: "POST",
@@ -560,12 +579,19 @@ const deleteTripEpic$ = (action$) =>
               )
             );
             store.dispatch(SetCurrentPage.get({ currentPage: PAGE.TRIP_LIST }));
-            return DeleteBusOperatorSuccess.get(result.result);
+            return DeleteTripSuccess.get(result.result);
           }
-          return DeleteBusOperatorFailed.get(result);
+          Modal.error({
+            title: "Lỗi",
+            content: result.result,
+            okText: "Đồng ý",
+            centered: true,
+            okButtonProps: { style: { backgroundColor: COLOR.primary } },
+          });
+          return DeleteTripFailed.get(result);
         }),
         catchError((error) => {
-          return DeleteBusOperatorFailed.get(error);
+          return DeleteTripFailed.get(error);
         })
       );
     })
@@ -581,7 +607,12 @@ const getCitiesTripEpic$ = (action$) =>
       }).pipe(
         map((result) => {
           if (result.status === 200) {
-            store.dispatch(SetCurrentPage.get({ currentPage: PAGE.TRIP_LIST, detailPage: PAGE.ADD_TRIP }));
+            store.dispatch(
+              SetCurrentPage.get({
+                currentPage: PAGE.TRIP_LIST,
+                detailPage: PAGE.ADD_TRIP,
+              })
+            );
             return GetCitiesTripSuccess.get(result.result);
           }
           return GetCitiesTripFailed.get(result);

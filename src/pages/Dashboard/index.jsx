@@ -123,7 +123,9 @@ function Dashboard() {
       <div id="menuContainer">
         <Avatar size={100} src="https://source.unsplash.com/random" />
         <span id="adminName">
-          {accountType !== "admin" ? accountDetail.name : "Admin"}
+          {accountType && accountType !== "admin"
+            ? accountDetail.name
+            : "Admin"}
         </span>
         <Menu
           defaultSelectedKeys={[PAGE.HOME]}

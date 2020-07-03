@@ -270,6 +270,20 @@
   align-items: center;
 }
 
+.timePicker {
+  height: 40px;
+  width: calc(212px + 1vmin);
+  min-width: calc(100px + 1vmin);
+  font-family: "Source Sans Pro";
+  border-color: #d9d9d9;
+  font-size: calc(8px + 1vmin);
+  margin-right: 8px;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #rowDis {
   display: flex;
   justify-content: space-between;

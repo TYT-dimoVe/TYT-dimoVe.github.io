@@ -1,20 +1,18 @@
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Input, message, Select, Spin, Upload, Modal } from "antd";
+import { Button, Input, message, Select, Spin, Upload } from "antd";
 import "antd/dist/antd.css";
 import { Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { COLOR, MAP_API_KEY } from "ultis/functions";
+import TimePicker from 'react-time-picker';
+import { COLOR } from "ultis/functions";
 import * as yup from "yup";
 import { PAGE } from "../constant";
 import "../dashboard.css";
 import {
-  GetDistrictData,
   GetWardData,
-  SetCurrentPage,
-  AddBusOperator,
+  SetCurrentPage
 } from "../redux/actions";
-import axios from "axios";
 
 const { Option } = Select;
 
@@ -278,7 +276,7 @@ function AddTripPage(props) {
                       <Option value={index}>{item.cityTitle}</Option>
                     ))}
                 </Select>
-                <span className="addTitle">Điểm đến:</span>
+                <span className="addTitle" style={{ width: 120, marginLeft: 20, marginRight: 12 }}>Điểm đến:</span>
                 <Select
                   placeholder="Chọn thành phố"
                   value={values.to?.cityTitle}
@@ -294,32 +292,9 @@ function AddTripPage(props) {
               </div>
               <div className="rowAdd">
                 <span className="addTitle">Thời gian khởi hành:</span>
-                {/* <Select
-                  placeholder="Chọn thành phố"
-                  value={cityCode ? cityCode.cityTitle : undefined}
-                  className="dropdownCity"
-                  allowClear={false}
-                  bordered
-                  onChange={onChangeCityFrom}
-                >
-                  {citiesTrip &&
-                    citiesTrip.map((item, index) => (
-                      <Option value={index}>{item.cityTitle}</Option>
-                    ))}
-                </Select> */}
-                <span className="addTitle">Thời gian đến:</span>
-                {/* <Select
-                  placeholder="Chọn thành phố"
-                  value={cityCodeTo ? cityCodeTo.cityTitle : undefined}
-                  className="dropdownNormal"
-                  allowClear={false}
-                  onChange={onChangeCityTo}
-                >
-                  {citiesTrip &&
-                    citiesTrip.map((item, index) => (
-                      <Option value={index}>{item.cityTitle}</Option>
-                    ))}
-                </Select> */}
+                <TimePicker onChange={handleChange('timeStart')} value={values.timeStart} format='HH:mm' clearIcon={null} clockClassName='timePicker' className='timePicker' />
+                <span className="addTitle" style={{ width: 120, marginLeft: 20, marginRight: 12 }}>Thời gian đến:</span>
+                <TimePicker onChange={handleChange('timeEnd')} value={values.timeEnd} format='HH:mm' clearIcon={null} clockClassName='timePicker' className='timePicker' />
               </div>
               <div className="rowAdd">
                 <span className="addTitle">Loại xe:</span>
